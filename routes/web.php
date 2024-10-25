@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\Dashboard\OverviewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [OverviewController::class, 'index'])->name('home');
 
 // route prefix /auth
 Route::prefix('auth')->group(function () {
