@@ -19,7 +19,7 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(
-            <ChakraProvider theme={theme}>
+            <ChakraProvider>
                 <App {...props} />
             </ChakraProvider>
         );
