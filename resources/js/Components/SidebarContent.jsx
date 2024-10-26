@@ -16,11 +16,11 @@ export const SidebarContent = ({ onClose, ...rest }) => {
   const { auth } = usePage().props;
   const LinkItems = [
     { name: "Overview", path: '/', icon: FiHome },
-    { name: "Periksa", path: '/sites', icon: BiSolidWindowAlt },
+    { name: "Pemeriksaaan", path: '/pemeriksaan', icon: BiSolidWindowAlt },
   ]
 
   const isVisible = (link) => {
-    return ['Overview', 'Periksa'].includes(link.name);
+    return ['Overview', 'Pemeriksaaan'].includes(link.name);
   };
 
   return (
