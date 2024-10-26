@@ -31,7 +31,7 @@ export default function Create() {
         diagnosis: '',
         resep: [
             {
-                medicine: '', quantity: '', dosage: '', instructions: '', status: '', time_before_after_meal: ''
+                medicine: '', quantity: '1', dosage: '0', instructions: '', status: '', time_before_after_meal: ''
             }
         ]
     });
@@ -93,12 +93,12 @@ export default function Create() {
                         <CardBody>
                             {activeStep === 0 && (
                                 <>
-                                    <FormControl id="bpjs_number" isInvalid={errors.bpjs_number}>
+                                    <FormControl id="bpjs_number" isInvalid={errors.bpjs_number} isRequired>
                                         <FormLabel>No BPJS Pasien</FormLabel>
                                         <Input type="text" placeholder="Masukkan No BPJS Pasien" value={data.bpjs_number} onChange={(e) => setData('bpjs_number', e.target.value)} />
                                         <FormErrorMessage>{errors.bpjs_number}</FormErrorMessage>
                                     </FormControl>
-                                    <FormControl id="diagnosis" mt={4} isInvalid={errors.diagnosis}>
+                                    <FormControl id="diagnosis" mt={4} isInvalid={errors.diagnosis} isRequired>
                                         <FormLabel>Diagnosa</FormLabel>
                                         <Input type="text" placeholder="Masukkan Diagnosa" value={data.diagnosis} onChange={(e) => setData('diagnosis', e.target.value)} />
                                         <FormErrorMessage>{errors.diagnosis}</FormErrorMessage>
@@ -107,7 +107,7 @@ export default function Create() {
                             )}
                             {activeStep === 1 && (
                                 <>
-                                    <Button colorScheme={"brand"} size={"sm"} leftIcon={<FaPlus />} onClick={() => {
+                                    <Button variant={"brand"} size={"sm"} leftIcon={<FaPlus />} onClick={() => {
                                         setData('resep', [...data.resep, { medicine: '', quantity: '', dosage: '', instructions: '', status: '', time_before_after_meal: '' }]);
                                     }}>
                                         Tambah Resep

@@ -15,8 +15,11 @@ class PemeriksaanController extends Controller
 {
     public function index()
     {
+        $prescriptions = Prescriptions::with('pasien', 'nakes.user')->paginate(1);
+        // dd($prescriptions);
         return Inertia::render('Dashboard/Pemeriksaan/Index', [
             'title' => 'Pemeriksaan',
+            'prescriptions' => $prescriptions
         ]);
     }
 

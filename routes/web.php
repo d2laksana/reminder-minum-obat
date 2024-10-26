@@ -19,4 +19,5 @@ Route::prefix('pemeriksaan')->group(function () {
     Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
     Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
     Route::post('/', [PemeriksaanController::class, 'store'])->name('pemeriksaan.store');
+    Route::get('/{id}', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
 });

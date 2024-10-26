@@ -2,6 +2,7 @@ import {
   Box,
   CloseButton,
   Flex,
+  Text,
   useColorModeValue,
 } from '@chakra-ui/react'
 
@@ -34,7 +35,15 @@ export const SidebarContent = ({ onClose, ...rest }) => {
       h="full"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between" m="8">
-        <img src="https://example.com/logo.png" alt="logo" style={{ width: '10rem' }} />
+        {/* <img src="https://example.com/logo.png" alt="logo" style={{ width: '10rem' }} /> */}
+        <Box display={"flex"} flexDirection={"row"} gap={2}>
+          <Text fontSize="2xl" fontWeight="bold" color={useColorModeValue('black', 'white')}>
+            Mobile
+          </Text>
+          <Text fontSize="2xl" color={useColorModeValue('gray.800', 'white')}>
+            JKN
+          </Text>
+        </Box>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.filter(isVisible).map((link) => (

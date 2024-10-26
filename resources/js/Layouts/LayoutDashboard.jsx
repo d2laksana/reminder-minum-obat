@@ -15,7 +15,7 @@ const LayoutDashboard = (props) => {
             <Head>
                 <title>{title}</title>
             </Head>
-            <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.800')}>
+            <Box minH="100vh" bg={useColorModeValue('#ECF8FF', 'gray.800')}>
                 <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
                 <Drawer
                     isOpen={isOpen}
@@ -29,7 +29,7 @@ const LayoutDashboard = (props) => {
                     </DrawerContent>
                 </Drawer>
                 <MobileNav onOpen={onOpen} user={user} />
-                <Box mt={10} ml={{ base: 0, md: 60 }} px="10">
+                <Box mt={8} ml={{ base: 0, md: 60 }} px="2">
                     <Container maxW="container.xl">
                         {children}
                     </Container>

@@ -103,6 +103,15 @@ export const buttonStyles = {
             bg: mode("secondaryGray.100", "brand.400")(props),
           },
         }),
+        pagination: (props) => ({
+          _focus: {
+            bg: mode("transparent", "gray")(props),
+          },
+          _active: { bg: mode("transparent", "gray")(props) },
+          _hover: {
+            bg: mode("secondaryGray.100", "gray")(props),
+          },
+        }),
       },
     },
   },
