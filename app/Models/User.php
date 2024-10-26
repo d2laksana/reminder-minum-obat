@@ -28,6 +28,7 @@ class User extends Authenticatable
         'avatar',
         'role',
         'coins',
+        'bpjs_number',
     ];
 
     /**
