@@ -30,6 +30,14 @@ class LoginController extends Controller
       ]);
     }
 
+    // check if user is not verified
+    if (!Auth::user()->email_verified_at) {
+      Auth::logout();
+      return redirect()->back()->withErrors([
+        'email' => 'Your email is not verified',
+      ]);
+    }
+
     //
     // Lanjutke ning kene nu
     //
