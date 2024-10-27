@@ -64,6 +64,7 @@ class DatabaseSeeder extends Seeder
             [
                 "name" => "Naufal Hady AJ",
                 "username" => "naufaljr",
+                "email" => "naufaljr@gmail.com",
                 "password" => bcrypt("password"),
                 "address" => "Jl. Kesehatan No.1, Sekip, Sinduadi, Mlati, Sleman, Yogyakarta 55284",
                 "phone" => "081234567890",
@@ -74,6 +75,7 @@ class DatabaseSeeder extends Seeder
             [
                 "name" => "Rizky Kurniawan",
                 "username" => "rizkykurniawan",
+                "email" => "rizkykurniawan@gmail.com",
                 "password" => bcrypt("password"),
                 "address" => "Jl. Kesehatan No.1, Sekip, Sinduadi, Mlati, Sleman, Yogyakarta 55284",
                 "phone" => "081234567890",
@@ -99,6 +101,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             "name" => "Rafino Ramdhaniar PP",
             "username" => "rafino",
+            "email" => "rafino@gmail.com",
             "password" => bcrypt("password"),
             "address" => "Jl. Kesehatan No.1, Sekip, Sinduadi, Mlati, Sleman, Yogyakarta 55284",
             "phone" => "081234567890",

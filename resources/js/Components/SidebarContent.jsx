@@ -36,12 +36,10 @@ export const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between" m="8">
         {/* <img src="https://example.com/logo.png" alt="logo" style={{ width: '10rem' }} /> */}
-        <Box display={"flex"} flexDirection={"row"} gap={2}>
-          <Text fontSize="2xl" fontWeight="bold" color={useColorModeValue('black', 'white')}>
+        <Box alignItems={"center"} textAlign={"center"} w={"100%"}>
+          <Text fontSize="3xl" color={useColorModeValue('blue.800', 'white')} fontWeight={"900"}>
             Mobile
-          </Text>
-          <Text fontSize="2xl" color={useColorModeValue('gray.800', 'white')}>
-            JKN
+            <Text as={"span"} ms={"1"} fontWeight={"300"}>JKN</Text>
           </Text>
         </Box>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />

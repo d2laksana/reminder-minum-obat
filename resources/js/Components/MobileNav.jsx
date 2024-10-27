@@ -16,7 +16,10 @@ import {
     useColorMode,
     Heading,
     useToast,
-} from '@chakra-ui/react'
+    Input,
+    InputGroup,
+    InputLeftElement,
+} from "@chakra-ui/react";
 
 import {
     FiMenu,
@@ -26,9 +29,12 @@ import {
 import { timeSince } from '@/Helpers/timeSince';
 
 import { BsFillSunFill } from "react-icons/bs";
-import { FaLanguage, FaRegMoon } from "react-icons/fa";
+import { FaLanguage, FaMoon } from "react-icons/fa";
 import { Link, usePage } from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
+import { FaBell } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
+import { FaCoins } from "react-icons/fa6";
 
 export const MobileNav = ({ onOpen, ...rest }) => {
     const { auth } = usePage().props;
@@ -69,21 +75,72 @@ export const MobileNav = ({ onOpen, ...rest }) => {
             </Text>
 
             <HStack spacing={{ base: "0", md: "6" }}>
-                <Box display={{ base: "none", md: "block" }}>
-                    <IconButton
-                        size="lg"
-                        variant="ghost"
-                        aria-label="toggle color mode"
-                        icon={
-                            colorMode === "light" ? (
-                                <FaRegMoon />
-                            ) : (
-                                <BsFillSunFill />
-                            )
-                        }
-                        onClick={toggleColorMode}
+                {/* search input with search icon */}
+                <InputGroup>
+                    <InputLeftElement
+                        pointerEvents="none"
+                        color={useColorModeValue("gray.600", "gray.700")}
+                        children={<IoSearch />}
                     />
-                </Box>
+                    <Input
+                        type="text"
+                        placeholder="Cari disini"
+                        borderRadius={"2xl"}
+                    />
+                </InputGroup>
+
+                <Flex alignItems={"center"} gap={2}>
+                    <Box
+                        display={{ base: "none", md: "flex" }}
+                        alignItems="center"
+                        mr={2}
+                    >
+                        {/* coins */}
+                        <IconButton
+                            size="lg"
+                            variant="ghost"
+                            aria-label="notification"
+                            color={"yellow.400"}
+                            icon={<FaCoins />}
+                        />
+
+                        <Text
+                            fontSize="sm"
+                            color="yellow.400"
+                            fontWeight="bold"
+                        >
+                            1000
+                        </Text>
+                    </Box>
+
+                    <Box display={{ base: "none", md: "block" }}>
+                        <IconButton
+                            size="lg"
+                            variant="ghost"
+                            aria-label="toggle color mode"
+                            color={useColorModeValue("gray.600", "gray.200")}
+                            icon={
+                                colorMode === "light" ? (
+                                    <FaMoon />
+                                ) : (
+                                    <BsFillSunFill />
+                                )
+                            }
+                            onClick={toggleColorMode}
+                        />
+                    </Box>
+
+                    <Box display={{ base: "none", md: "block" }}>
+                        <IconButton
+                            size="lg"
+                            variant="ghost"
+                            aria-label="notification"
+                            color={useColorModeValue("gray.600", "gray.200")}
+                            icon={<FaBell />}
+                        />
+                    </Box>
+                </Flex>
+
                 <Flex alignItems={"center"}>
                     <Menu>
                         <MenuButton
@@ -94,7 +151,9 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                             <HStack>
                                 <Avatar
                                     size={"sm"}
-                                    src={"https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"}
+                                    src={
+                                        "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                                    }
                                 />
                                 <VStack
                                     display={{ base: "none", md: "flex" }}
@@ -126,13 +185,13 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                             </Link>
                             <MenuItem>Pengaturan</MenuItem>
                             <MenuDivider />
-                            <Link onClick={
-                                (e) => {
+                            <Link
+                                onClick={(e) => {
                                     e.preventDefault();
                                     localStorage.removeItem("user");
                                     window.location.href = "/auth/logout";
-                                }
-                            }>
+                                }}
+                            >
                                 <MenuItem>Keluar</MenuItem>
                             </Link>
                         </MenuList>
