@@ -12,8 +12,8 @@ class LoginController extends Controller
   public function index()
   {
     return Inertia::render('Auth/Login', [
-			'title' => 'Login',
-		]);
+      'title' => 'Login',
+    ]);
   }
 
   public function login(Request $request)
@@ -24,24 +24,30 @@ class LoginController extends Controller
       'remember' => 'nullable|boolean',
     ]);
 
-    if (!Auth::attempt($request->only('email', 'password'))) {
-      return redirect()->back()->withErrors([
-        'password' => 'Invalid credentials',
-      ]);
+
+    if (Auth::attempt($request->only('email', 'password'), $request->remember)) {
+      if (!Auth::user()->email_verified_at) {
+        Auth::logout();
+        return redirect()->back()->withErrors([
+          'email' => 'Your email is not verified',
+        ]);
+      }
+
+      $request->session()->regenerate();
+      return redirect()->route('home');
     }
 
-    // check if user is not verified
-    if (!Auth::user()->email_verified_at) {
-      Auth::logout();
-      return redirect()->back()->withErrors([
-        'email' => 'Your email is not verified',
-      ]);
-    }
 
-    //
-    // Lanjutke ning kene nu
-    //
+    return redirect()->back()->withErrors([
+      'password' => 'Invalid credentials',
+    ]);
+  }
 
-    return redirect()->route('home');
+  public function logout(Request $request)
+  {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('login');
   }
 }

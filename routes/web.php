@@ -7,16 +7,17 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Dashboard\OverviewController;
 use App\Http\Controllers\Dashboard\PemeriksaanController;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [OverviewController::class, 'index'])->name('home');
 
 // route prefix /auth
 Route::prefix('auth')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware(AuthMiddleware::class);
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::get('/register/pasien', [RegisterController::class, 'RegisterPasien'])->name('register.pasien');
@@ -35,9 +36,16 @@ Route::prefix('auth')->group(function () {
     Route::post('/reset', [ForgetPasswordController::class, 'reset_store'])->name('reset.password.post');
 });
 
-Route::prefix('pemeriksaan')->group(function () {
-    Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
-    Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
-    Route::post('/', [PemeriksaanController::class, 'store'])->name('pemeriksaan.store');
-    Route::get('/{id}', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
+
+Route::middleware(AuthMiddleware::class)->group(function () {
+    Route::get('/', [OverviewController::class, 'index'])->name('home');
+
+    Route::prefix('pemeriksaan')->group(function () {
+        Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
+        Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
+        Route::post('/', [PemeriksaanController::class, 'store'])->name('pemeriksaan.store');
+        Route::get('/search', [PemeriksaanController::class, 'search'])->name('pemeriksaan.search');
+        Route::get('/{id}', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
+        Route::get('/{id}/edit', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
+    });
 });
