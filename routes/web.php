@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Dashboard\OverviewController;
 use App\Http\Controllers\Dashboard\PemeriksaanController;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,9 @@ Route::prefix('auth')->group(function () {
 
     Route::get('/register/nakes', [RegisterController::class, 'RegisterNakes'])->name('register.nakes');
     Route::post('/register/nakes', [RegisterController::class, 'RegisterNakesPost'])->name('register.nakes.post');
+
+    Route::get('/verify/email', [EmailVerificationController::class, 'index'])->name('verify.email');
+    Route::post('/verify/email', [EmailVerificationController::class, 'verify'])->name('verify.email.post');
 });
 
 Route::prefix('pemeriksaan')->group(function () {

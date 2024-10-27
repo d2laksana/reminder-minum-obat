@@ -9,6 +9,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Nakes;
 use App\Models\Instansi;
+use App\Models\EmailVerification;
+use App\Mail\EmailVerification as MailEmailVerification;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -41,7 +44,7 @@ class RegisterController extends Controller
 			'gender' => 'required|string|max:255|in:Pria,Wanita',
 		]);
 
-		User::create([
+		$user = User::create([
 			'name' => $request->name,
 			'username' => $request->username,
 			'email' => $request->email,
@@ -54,7 +57,17 @@ class RegisterController extends Controller
 			'password' => Hash::make($request->password),
 		]);
 
-		return redirect()->route('login');
+		$pin = rand(100000, 999999);
+
+		EmailVerification::create([
+			'email' => $request->email,
+			'pin' => $pin,
+			'expired_at' => now()->addMinutes(60),
+		]);
+
+		Mail::to($request->email)->send(new MailEmailVerification($user, $pin));
+
+		return redirect()->route('verify.email');
 	}
 
 	public function RegisterNakes()
@@ -100,6 +113,16 @@ class RegisterController extends Controller
 			'instansi_id' => $request->instansi_id,
 		]);
 
-		return redirect()->route('login');
+		$pin = rand(100000, 999999);
+
+		EmailVerification::create([
+			'email' => $request->email,
+			'pin' => $pin,
+			'expired_at' => now()->addMinutes(60),
+		]);
+
+		Mail::to($request->email)->send(new MailEmailVerification($user, $pin));
+
+		return redirect()->route('verify.email');
 	}
 }

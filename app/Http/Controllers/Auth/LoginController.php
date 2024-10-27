@@ -24,8 +24,6 @@ class LoginController extends Controller
       'remember' => 'nullable|boolean',
     ]);
 
-    dd($request->all());
-
     if (!Auth::attempt($request->only('email', 'password'))) {
       return redirect()->back()->withErrors([
         'password' => 'Invalid credentials',

@@ -30,6 +30,7 @@ class User extends Authenticatable
         'role',
         'coins',
         'bpjs_number',
+        'email_verified_at',
     ];
 
     /**
