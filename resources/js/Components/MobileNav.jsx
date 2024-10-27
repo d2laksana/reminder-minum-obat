@@ -162,10 +162,10 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                                     ml="2"
                                 >
                                     <Text fontSize="sm">
-                                        {capitalizeFirstLetter("Naufal")}
+                                        {capitalizeFirstLetter(auth.user.name.split(" ")[0])}
                                     </Text>
                                     <Text fontSize="xs" color="gray.600">
-                                        {capitalizeFirstLetter("Admin")}
+                                        {capitalizeFirstLetter(auth.user.role)}
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: "none", md: "flex" }}>
