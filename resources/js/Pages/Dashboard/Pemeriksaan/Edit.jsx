@@ -2,14 +2,15 @@
 
 import LayoutDashboard from "@/Layouts/LayoutDashboard";
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Step, StepDescription, StepIcon, StepIndicator, StepNumber, Stepper, StepSeparator, StepStatus, StepTitle, Textarea, useToast } from "@chakra-ui/react";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
-export default function Create() {
+export default function Edit() {
     const toast = useToast();
     const [activeStep, setActiveStep] = useState(0);
+    const { prescription } = usePage().props;
 
     const steps = [
         { title: "Pertama", description: "Data Pasien & Diagnosa" },
@@ -27,13 +28,16 @@ export default function Create() {
     }
 
     const { data, setData, post, processing, errors } = useForm({
-        bpjs_number: '',
-        diagnosis: '',
-        resep: [
-            {
-                medicine: '', quantity: '1', dosage: '0', instructions: '', status: '', time_before_after_meal: ''
-            }
-        ]
+        bpjs_number: prescription.pasien.bpjs_number,
+        diagnosis: prescription.diagnosis,
+        resep: prescription.details.map((detail) => ({
+            medicine: detail.medicine,
+            quantity: detail.quantity,
+            dosage: detail.dosage,
+            instructions: detail.instructions,
+            status: detail.status,
+            time_before_after_meal: detail.time_before_after_meal
+        }))
     });
 
     const handleSubmit = (e) => {
@@ -62,7 +66,6 @@ export default function Create() {
             }
         })
     }
-
     return (
         <LayoutDashboard>
             <Card w={"full"} mb={10}>
@@ -75,7 +78,7 @@ export default function Create() {
                             <>
                                 <FormControl id="bpjs_number" isInvalid={errors.bpjs_number} isRequired>
                                     <FormLabel>No BPJS Pasien</FormLabel>
-                                    <Input type="text" placeholder="Masukkan No BPJS Pasien" value={data.bpjs_number} onChange={(e) => setData('bpjs_number', e.target.value)} />
+                                    <Input disabled type="text" placeholder="Masukkan No BPJS Pasien" value={data.bpjs_number} onChange={(e) => setData('bpjs_number', e.target.value)} />
                                     <FormErrorMessage>{errors.bpjs_number}</FormErrorMessage>
                                 </FormControl>
                                 <FormControl id="diagnosis" mt={4} isInvalid={errors.diagnosis} isRequired>
@@ -110,7 +113,7 @@ export default function Create() {
                                         <Flex justifyContent={"space-between"} mt={4} gap={5}>
                                             <FormControl id="quantity" isRequired>
                                                 <FormLabel>Jumlah Obat</FormLabel>
-                                                <NumberInput defaultValue={1} min={1} onChange={(value) => {
+                                                <NumberInput defaultValue={data.resep[index].quantity} min={1} onChange={(value) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
                                                             item.quantity = value;
@@ -129,7 +132,7 @@ export default function Create() {
 
                                             <FormControl id="dosage" isRequired>
                                                 <FormLabel>Dosis /hari</FormLabel>
-                                                <NumberInput defaultValue={0} min={0} max={4} onChange={(value) => {
+                                                <NumberInput defaultValue={data.resep[index].quantity} min={0} max={4} onChange={(value) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
                                                             item.dosage = value;
@@ -162,7 +165,7 @@ export default function Create() {
                                         <Flex justifyContent={"space-between"} mt={4} gap={5}>
                                             <FormControl id="status" isRequired>
                                                 <FormLabel>Status</FormLabel>
-                                                <Select placeholder="Status konsumsi obat" onChange={(e) => {
+                                                <Select defaultValue={data.resep[index].status} placeholder="Status konsumsi obat" onChange={(e) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
                                                             item.status = e.target.value;
@@ -179,7 +182,7 @@ export default function Create() {
 
                                             <FormControl id="time_before_after_meal" isRequired>
                                                 <FormLabel>Waktu Konsumsi</FormLabel>
-                                                <Select placeholder="Pilih waktu konsumsi obat" onChange={(e) => {
+                                                <Select defaultValue={data.resep[index].time_before_after_meal} placeholder="Pilih waktu konsumsi obat" onChange={(e) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
                                                             item.time_before_after_meal = e.target.value;
@@ -254,6 +257,6 @@ export default function Create() {
                     </Flex>
                 </CardFooter>
             </Card>
-        </LayoutDashboard>
+        </LayoutDashboard >
     );
 }

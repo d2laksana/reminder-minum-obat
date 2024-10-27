@@ -30,8 +30,8 @@ export default function Pagination({ prescriptions }) {
     const pageNumbers = getPageNumbers();
     return (
         <HStack spacing="4" justify="center">
-            <Link href={prescriptions.prev_page_url} isDisabled={!prescriptions.prev_page_url}>
-                <Button isDisabled={!prescriptions.next_page_url} variant={"pagination"}>
+            <Link href={prescriptions.prev_page_url} >
+                <Button isDisabled={!prescriptions.prev_page_url} variant={"pagination"}>
                     Sebelumnya
                 </Button>
             </Link>

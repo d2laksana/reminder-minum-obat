@@ -18,4 +18,9 @@ class Prescriptions extends Model
     {
         return $this->belongsTo(Nakes::class, 'nakes_id');
     }
+
+    public function details()
+    {
+        return $this->hasMany(Prescription_details::class, 'prescription_id');
+    }
 }

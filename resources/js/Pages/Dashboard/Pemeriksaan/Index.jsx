@@ -2,13 +2,56 @@
 
 import Pagination from "@/Components/Pagination";
 import LayoutDashboard from "@/Layouts/LayoutDashboard";
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Progress, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, IconButton, Input, InputGroup, InputRightElement, Progress, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import { Link, usePage } from "@inertiajs/react";
+import { useState } from "react";
 import { FaPen, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
-
+import { Inertia } from '@inertiajs/inertia';
 
 export default function Index() {
-    const { prescriptions } = usePage().props;
+    const { prescriptions, filters } = usePage().props;
+    const [search, setSearch] = useState(filters.search || '');
+    const [data, setData] = useState(prescriptions);
+
+    // Fungsi untuk menangani perubahan input pencarian
+    // const handleSearchChange = (e) => {
+    //     const value = e.target.value;
+    //     setSearch(value);
+
+    //     // Melakukan permintaan pencarian ke server setelah input berubah
+    //     if (value.length > 2) {
+    //         Inertia.visit(route('pemeriksaan'), {
+    //             method: 'get',
+    //             data: { search: value },
+    //             only: ['prescriptions', 'filters'],
+    //             preserveState: true,
+    //             replace: true,
+    //             preserveScroll: true,
+    //             onSuccess: (page) => {
+    //                 setData(page.props.prescriptions);
+    //             },
+    //         });
+    //     } else {
+    //         Inertia.visit(route('pemeriksaan'), {
+    //             method: 'get',
+    //             only: ['prescriptions', 'filters'],
+    //             preserveState: true,
+    //             replace: true,
+    //             preserveScroll: true,
+    //             onSuccess: (page) => {
+    //                 setData(page.props.prescriptions);
+    //             },
+    //         });
+    //     }
+    // };
+
+    // const handleSearchChange = (e) => {
+    //     const value = e.target.value;
+    //     setSearch(value);
+    //     const test = new URLSearchParams(window.location.search).get(search) || '';
+    //     console.log(test);
+    // }
+
 
     return (
         <LayoutDashboard>
@@ -20,7 +63,10 @@ export default function Index() {
                                 pointerEvents="none"
                                 children={<FaSearch style={{ color: '#E2E8F0' }} />}
                             />
-                            <Input type="text" placeholder="Masukan nama Pasien" />
+                            <Input
+                                type="text"
+                                placeholder="Masukan nama Pasien"
+                            />
                         </InputGroup>
                         <Link href={route('pemeriksaan.create')}>
                             <Button variant="outline" size={"md"} borderColor={"#63B3ED"} color={"#63B3ED"} borderRadius={8}>
@@ -40,7 +86,7 @@ export default function Index() {
                                     <Th color="#A0AEC0" w="20%">Tanggal Mulai Pengobatan</Th>
                                     <Th color="#A0AEC0" w="20%">Perkiraan Selesai Pengobatan</Th>
                                     <Th color="#A0AEC0" w="25%">Progress</Th>
-                                    <Th color="#A0AEC0" w="10%">Edit</Th>
+                                    <Th color="#A0AEC0" w="10%">Aksi</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -53,18 +99,15 @@ export default function Index() {
                                         <Td>
                                             <Box>
                                                 <Text color={"#63B3ED"}>50%</Text>
-                                                <Progress value={50} color={"#63B3ED"} size={"sm"} w={"full"} />
+                                                <Progress value={50} colorScheme="blue" size="sm" w="full" />
                                             </Box>
                                         </Td>
                                         <Td>
-                                            <Flex justifyContent={"center"}>
-                                                <Link href="#">
-                                                    <IconButton aria-label="Edit" icon={<FaPen />} size={"sm"} color={"black"} />
-                                                </Link>
-                                                <Link href={route('pemeriksaan.edit', prescription.id)}>
-                                                    <IconButton aria-label="Delete" icon={<FaTrash />} size={"sm"} color={"black"} />
-                                                </Link>
-                                            </Flex>
+                                            <Link href={route('pemeriksaan.show', prescription.id)}>
+                                                <Button variant="outline" size={"sm"} borderColor={"#63B3ED"} color={"#63B3ED"} borderRadius={8}>
+                                                    Detail
+                                                </Button>
+                                            </Link>
                                         </Td>
                                     </Tr>
                                 ))}
@@ -75,7 +118,6 @@ export default function Index() {
                 <CardFooter>
                     <Pagination prescriptions={prescriptions} />
                 </CardFooter>
-
             </Card>
         </LayoutDashboard>
     );

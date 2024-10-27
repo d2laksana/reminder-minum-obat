@@ -13,13 +13,22 @@ use Inertia\Inertia;
 
 class PemeriksaanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prescriptions = Prescriptions::with('pasien', 'nakes.user')->paginate(1);
-        // dd($prescriptions);
+        $query = Prescriptions::with('pasien', 'nakes.user');
+
+        if ($request->has('search')) {
+            $query->whereHas('pasien', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $prescriptions = $query->paginate(15);
+
         return Inertia::render('Dashboard/Pemeriksaan/Index', [
             'title' => 'Pemeriksaan',
-            'prescriptions' => $prescriptions
+            'prescriptions' => $prescriptions,
+            'filters' => $request->only('search'),
         ]);
     }
 
@@ -65,5 +74,43 @@ class PemeriksaanController extends Controller
         } catch (\Throwable $th) {
             return back()->withErrors(['message' => $th->getMessage()])->withInput();
         }
+    }
+
+    public function search(Request $request)
+    {
+        $query = Prescriptions::with('pasien', 'nakes.user');
+
+        if ($request->has('search')) {
+            $query->whereHas('pasien', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $prescriptions = $query->paginate(1);
+        // dd($prescriptions);
+
+        return response()->json($prescriptions);
+    }
+
+    public function show($id)
+    {
+        $prescription = Prescriptions::with('pasien', 'nakes.user', 'details')->findOrFail($id);
+        // dd($prescription);
+
+        return Inertia::render('Dashboard/Pemeriksaan/Show', [
+            'title' => 'Detail Pemeriksaan',
+            'prescription' => $prescription
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $prescription = Prescriptions::with('pasien', 'nakes.user', 'details')->findOrFail($id);
+        // dd($prescription);
+
+        return Inertia::render('Dashboard/Pemeriksaan/Edit', [
+            'title' => 'Edit Pemeriksaan',
+            'prescription' => $prescription
+        ]);
     }
 }
