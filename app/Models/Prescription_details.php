@@ -14,6 +14,8 @@ class Prescription_details extends Model
         'dosage',
         'instructions',
         'status',
-        'time_before_after_meal'
+        'time_before_after_meal',
+        'aturan_konsumsi',
+        'total_konsumsi'
     ];
 }
