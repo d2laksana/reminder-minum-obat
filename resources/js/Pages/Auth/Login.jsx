@@ -40,7 +40,7 @@ export default function Login() {
 							<FormControl isRequired isInvalid={errors.email}>
 								<FormLabel>Email</FormLabel>
 								<InputGroup>
-									<Input type="email" placeholder="Alamat email anda" py={6} mt={1} borderRadius={"2xl"} onChange={(e) => setData({...data, email: e.target.value})} value={data.email} />
+									<Input type="email" placeholder="Alamat email anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, email: e.target.value})} value={data.email} />
 								</InputGroup>
 								{errors.email && <FormErrorMessage>{errors.email}</FormErrorMessage>}
 							</FormControl>
@@ -48,7 +48,7 @@ export default function Login() {
 							<FormControl isRequired mt={5} isInvalid={errors.password}>
 								<FormLabel>Kata Sandi</FormLabel>
 								<InputGroup>
-									<Input type="password" placeholder="Kata sandi anda" py={6} mt={1} borderRadius={"2xl"} onChange={(e) => setData({...data, password: e.target.value})} value={data.password} />
+									<Input type="password" placeholder="Kata sandi anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, password: e.target.value})} value={data.password} />
 								</InputGroup>
 								{errors.password && <FormErrorMessage>{errors.password}</FormErrorMessage>}
 							</FormControl>

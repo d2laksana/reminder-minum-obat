@@ -21,6 +21,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/register/pasien', [RegisterController::class, 'RegisterPasienPost'])->name('register.pasien.post');
 
     Route::get('/register/nakes', [RegisterController::class, 'RegisterNakes'])->name('register.nakes');
+    Route::post('/register/nakes', [RegisterController::class, 'RegisterNakesPost'])->name('register.nakes.post');
 });
 
 Route::prefix('pemeriksaan')->group(function () {
