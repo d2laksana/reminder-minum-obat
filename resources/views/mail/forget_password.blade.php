@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Verify Your Email</title>
+    <title>Reset Your Password</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
     /**
@@ -185,7 +185,7 @@
             <tr>
               <td align="left" bgcolor="#ffffff" style="padding: 0px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                 <p style="margin: 0;">
-									Terima kasih telah mendaftar di Website Pengingat Minum Obat. Untuk melanjutkan, silahkan verifikasi alamat email Anda dengan memasukkan kode berikut:
+									Kami telah menerima permintaan untuk mengatur ulang kata sandi akun Anda. Silahkan klik tombol di bawah ini untuk mengatur ulang kata sandi Anda.
                 </p>
               </td>
             </tr>
@@ -193,29 +193,29 @@
 
             <!-- start button -->
             <tr>
-                <td align="left" bgcolor="#ffffff">
-                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                      <td align="center" bgcolor="#ffffff">
-                        <table border="0" cellpadding="0" cellspacing="0">
-                          <tr>
-                            <td align="center">
-                              <p style="font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 40px;text-decoration: none;font-weight: 500;">{{ $pin }}</p>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
+							<td align="left" bgcolor="#ffffff" style="padding: 24px;">
+								<table border="0" cellpadding="0" cellspacing="0" width="100%">
+									<tr>
+										<td align="center" bgcolor="#ffffff">
+											<table border="0" cellpadding="0" cellspacing="0">
+												<tr>
+													<td align="center" bgcolor="#ffffff" style="border-radius: 6px;">
+														<a href="{{ route('reset.password', $token) }}" target="_blank" style="display: inline-block; padding: 12px 18px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px; background-color: #63B3ED;">Reset Password</a>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+            </tr>
             <!-- end button -->
 
             <!-- start copy -->
             <tr>
               <td align="left" bgcolor="#ffffff" style="padding: 0px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                 <p style="margin: 0;">
-									Jika kode di atas tidak berfungsi, silahkan coba untuk mengirimkan ulang kode verifikasi anda.
+									Jika Anda tidak meminta untuk mengatur ulang kata sandi, abaikan email ini.
                 </p>
               </td>
             </tr>
@@ -253,7 +253,7 @@
             <tr>
               <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
                 <p style="margin: 0;">
-									Anda menerima email ini karena baru saja mendaftar di Website Pengingat Minum Obat. Jika Anda tidak mendaftar, silahkan abaikan email ini. <a href="https://avicenna.io/" target="_blank">avicenna.io</a>.
+									Anda menerima email ini karena kami baru saja menerima permintaan untuk me-reset password anda. Jika Anda tidak merasa melakukannya, silahkan abaikan email ini. <a href="https://avicenna.io/" target="_blank">avicenna.io</a>.
                 </p>
               </td>
             </tr>

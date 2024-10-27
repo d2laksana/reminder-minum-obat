@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Dashboard\OverviewController;
 use App\Http\Controllers\Dashboard\PemeriksaanController;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,12 @@ Route::prefix('auth')->group(function () {
 
     Route::get('/verify/email', [EmailVerificationController::class, 'index'])->name('verify.email');
     Route::post('/verify/email', [EmailVerificationController::class, 'verify'])->name('verify.email.post');
+
+    Route::get('/forget', [ForgetPasswordController::class, 'index'])->name('forget.password');
+    Route::post('/forget', [ForgetPasswordController::class, 'store'])->name('forget.password.post');
+
+    Route::get('/reset/{token}', [ForgetPasswordController::class, 'reset'])->name('reset.password');
+    Route::post('/reset', [ForgetPasswordController::class, 'reset_store'])->name('reset.password.post');
 });
 
 Route::prefix('pemeriksaan')->group(function () {
