@@ -20,7 +20,7 @@ export default function RegisterPasien() {
 		birth_date: "",
 		gender: ""
 	});
-	
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		await post(route("register.pasien.post"), {
@@ -36,6 +36,14 @@ export default function RegisterPasien() {
 			},
 			onError: (errors) => {
 				setStep(1);
+				toast({
+					title: "Pendaftaran Gagal",
+					description: "Terjadi kesalahan saat mendaftar, silahkan coba lagi.",
+					status: "error",
+					duration: 5000,
+					isClosable: true,
+					position: "top-right",
+				});
 			}
 		});
 	}
@@ -52,7 +60,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired isInvalid={errors.name}>
 								<FormLabel>Nama</FormLabel>
 								<InputGroup>
-									<Input type="text" placeholder="Nama lengkap anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, name: e.target.value})} value={data.name} />
+									<Input type="text" placeholder="Nama lengkap anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, name: e.target.value })} value={data.name} />
 								</InputGroup>
 								{errors.name && <FormErrorMessage>{errors.name}</FormErrorMessage>}
 							</FormControl>
@@ -60,7 +68,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired mt={5} isInvalid={errors.bpjs_number}>
 								<FormLabel>Nomor BPJS</FormLabel>
 								<InputGroup>
-									<Input type="text" placeholder="Nomor BPJS anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, bpjs_number: e.target.value})} value={data.bpjs_number} />
+									<Input type="text" placeholder="Nomor BPJS anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, bpjs_number: e.target.value })} value={data.bpjs_number} />
 								</InputGroup>
 								{errors.bpjs_number && <FormErrorMessage>{errors.bpjs_number}</FormErrorMessage>}
 							</FormControl>
@@ -68,7 +76,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired mt={5} isInvalid={errors.username}>
 								<FormLabel>Username</FormLabel>
 								<InputGroup>
-									<Input type="text" placeholder="Username pilihan anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, username: e.target.value})} value={data.username} />
+									<Input type="text" placeholder="Username pilihan anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, username: e.target.value })} value={data.username} />
 								</InputGroup>
 								{errors.username && <FormErrorMessage>{errors.username}</FormErrorMessage>}
 							</FormControl>
@@ -76,7 +84,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired mt={5} isInvalid={errors.email}>
 								<FormLabel>Email</FormLabel>
 								<InputGroup>
-									<Input type="email" placeholder="Alamat email anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, email: e.target.value})} value={data.email} />
+									<Input type="email" placeholder="Alamat email anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, email: e.target.value })} value={data.email} />
 								</InputGroup>
 								{errors.email && <FormErrorMessage>{errors.email}</FormErrorMessage>}
 							</FormControl>
@@ -89,7 +97,7 @@ export default function RegisterPasien() {
 								<FormLabel>Nomor HP</FormLabel>
 								<InputGroup>
 									<InputLeftAddon children="+62" borderLeftRadius={"2xl"} height={"50"} />
-									<Input type="text" height={"50"} placeholder="Nomor HP anda" borderRadius={"2xl"} onChange={(e) => setData({...data, phone: e.target.value})} value={data.phone} />
+									<Input type="text" height={"50"} placeholder="Nomor HP anda" borderRadius={"2xl"} onChange={(e) => setData({ ...data, phone: e.target.value })} value={data.phone} />
 								</InputGroup>
 								{errors.phone && <FormErrorMessage>{errors.phone}</FormErrorMessage>}
 							</FormControl>
@@ -97,7 +105,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired mt={5} isInvalid={errors.birth_date}>
 								<FormLabel>Tanngal Lahir</FormLabel>
 								<InputGroup>
-									<Input type="date" height={"50"} borderRadius={"2xl"} onChange={(e) => setData({...data, birth_date: e.target.value})} value={data.birth_date} />
+									<Input type="date" height={"50"} borderRadius={"2xl"} onChange={(e) => setData({ ...data, birth_date: e.target.value })} value={data.birth_date} />
 								</InputGroup>
 								{errors.birth_date && <FormErrorMessage>{errors.birth_date}</FormErrorMessage>}
 							</FormControl>
@@ -105,7 +113,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired mt={5} isInvalid={errors.gender}>
 								<FormLabel>Jenis Kelamin</FormLabel>
 								<InputGroup>
-									<Select placeholder="Pilih jenis kelamin" height={"50"} borderRadius={"2xl"} onChange={(e => setData({...data, gender: e.target.value}))} value={data.gender}>
+									<Select placeholder="Pilih jenis kelamin" height={"50"} borderRadius={"2xl"} onChange={(e => setData({ ...data, gender: e.target.value }))} value={data.gender}>
 										<option value="Pria">Laki-laki</option>
 										<option value="Wanita">Perempuan</option>
 									</Select>
@@ -116,7 +124,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired mt={5} isInvalid={errors.address}>
 								<FormLabel>Alamat</FormLabel>
 								<InputGroup>
-									<Input type="text" placeholder="Alamat lengkap anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, address: e.target.value})} value={data.address} />
+									<Input type="text" placeholder="Alamat lengkap anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, address: e.target.value })} value={data.address} />
 								</InputGroup>
 								{errors.address && <FormErrorMessage>{errors.address}</FormErrorMessage>}
 							</FormControl>
@@ -128,7 +136,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired isInvalid={errors.password}>
 								<FormLabel>Kata Sandi</FormLabel>
 								<InputGroup>
-									<Input type="password" placeholder="Kata sandi anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, password: e.target.value})} value={data.password} />
+									<Input type="password" placeholder="Kata sandi anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, password: e.target.value })} value={data.password} />
 								</InputGroup>
 								{errors.password && <FormErrorMessage>{errors.password}</FormErrorMessage>}
 							</FormControl>
@@ -136,7 +144,7 @@ export default function RegisterPasien() {
 							<FormControl isRequired mt={5} isInvalid={errors.password_confirmation}>
 								<FormLabel>Konfirmasi Kata Sandi</FormLabel>
 								<InputGroup>
-									<Input type="password" placeholder="Konfirmasi kata sandi anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, password_confirmation: e.target.value})} value={data.password_confirmation} />
+									<Input type="password" placeholder="Konfirmasi kata sandi anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, password_confirmation: e.target.value })} value={data.password_confirmation} />
 								</InputGroup>
 								{errors.password_confirmation && <FormErrorMessage>{errors.password_confirmation}</FormErrorMessage>}
 							</FormControl>
@@ -151,7 +159,7 @@ export default function RegisterPasien() {
 							<Text color={"brand.600"} cursor={"pointer"} fontWeight={"600"}>Masuk</Text>
 						</Link>
 					</Flex>
-						
+
 				</Box>
 			</Box>
 			<Box w={"50%"} maxH={"100vh"} minH={"100vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>
