@@ -44,8 +44,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
         Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
         Route::post('/', [PemeriksaanController::class, 'store'])->name('pemeriksaan.store');
-        Route::get('/search', [PemeriksaanController::class, 'search'])->name('pemeriksaan.search');
         Route::get('/{id}', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
         Route::get('/{id}/edit', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
+        Route::put('/{id}', [PemeriksaanController::class, 'update'])->name('pemeriksaan.update');
     });
 });
