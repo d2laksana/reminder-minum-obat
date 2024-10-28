@@ -1,11 +1,13 @@
 'use client';
 
 import LayoutDashboard from "@/Layouts/LayoutDashboard";
-import { Avatar, Box, Button, Card, CardBody, CardHeader, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Card, CardBody, CardHeader, Flex, HStack, Text } from "@chakra-ui/react";
 import { Link, usePage } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function Show() {
     const { prescription } = usePage().props;
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const countAge = (date) => {
         const today = new Date();
@@ -20,7 +22,7 @@ export default function Show() {
         return age;
     }
 
-    console.log(prescription.details);
+
     return (
         <LayoutDashboard>
             <Card borderRadius={20}>
@@ -60,7 +62,27 @@ export default function Show() {
                         </CardHeader>
                         <CardBody>
                             <Text color={"#A3AED0"}>Nama obat</Text>
-                            <Text>{prescription.pasien.name}</Text>
+                            <Text>{prescription.details[selectedIndex].medicine}</Text>
+                            <Text color={"#A3AED0"} mt={2}>Dosis</Text>
+                            <Text>{prescription.details[selectedIndex].medicine}</Text>
+                            <Text color={"#A3AED0"} mt={2}>Aturan konsumsi</Text>
+                            <Text>3x sehari</Text>
+                            <Text color={"#A3AED0"} mt={2}>Waktu Minum</Text>
+                            <Text>{prescription.details[selectedIndex].time_before_after_meal}</Text>
+                            <Text color={"#A3AED0"} mt={2}>Status</Text>
+                            <Text>Kondisional</Text>
+                            <HStack mt={2} spacing="4" justify="center">
+                                {prescription.details.map((detail, index) => (
+                                    <Button
+                                        key={index}
+                                        variant={selectedIndex === index ? "solid" : "outline"}
+                                        colorScheme="blue"
+                                        onClick={() => setSelectedIndex(index)}
+                                    >
+                                        {index + 1}
+                                    </Button>
+                                ))}
+                            </HStack>
                         </CardBody>
                     </Card>
                 </Flex>

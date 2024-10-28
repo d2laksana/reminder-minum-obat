@@ -3,10 +3,9 @@
 import Pagination from "@/Components/Pagination";
 import LayoutDashboard from "@/Layouts/LayoutDashboard";
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, IconButton, Input, InputGroup, InputRightElement, Progress, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { FaPen, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
-import { Inertia } from '@inertiajs/inertia';
 
 export default function Index() {
     const { prescriptions, filters } = usePage().props;
@@ -14,36 +13,25 @@ export default function Index() {
     const [data, setData] = useState(prescriptions);
 
     // Fungsi untuk menangani perubahan input pencarian
-    // const handleSearchChange = (e) => {
-    //     const value = e.target.value;
-    //     setSearch(value);
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearch(value);
 
-    //     // Melakukan permintaan pencarian ke server setelah input berubah
-    //     if (value.length > 2) {
-    //         Inertia.visit(route('pemeriksaan'), {
-    //             method: 'get',
-    //             data: { search: value },
-    //             only: ['prescriptions', 'filters'],
-    //             preserveState: true,
-    //             replace: true,
-    //             preserveScroll: true,
-    //             onSuccess: (page) => {
-    //                 setData(page.props.prescriptions);
-    //             },
-    //         });
-    //     } else {
-    //         Inertia.visit(route('pemeriksaan'), {
-    //             method: 'get',
-    //             only: ['prescriptions', 'filters'],
-    //             preserveState: true,
-    //             replace: true,
-    //             preserveScroll: true,
-    //             onSuccess: (page) => {
-    //                 setData(page.props.prescriptions);
-    //             },
-    //         });
-    //     }
-    // };
+        // Melakukan permintaan pencarian ke server setelah input berubah
+        if (value.length > 2) {
+            router.visit(route('pemeriksaan'), {
+                method: 'get',
+                data: { search: value },
+                only: ['prescriptions', 'filters'],
+                preserveState: true,
+                replace: true,
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    setData(page.props.prescriptions);
+                },
+            });
+        }
+    };
 
     // const handleSearchChange = (e) => {
     //     const value = e.target.value;
@@ -66,6 +54,8 @@ export default function Index() {
                             <Input
                                 type="text"
                                 placeholder="Masukan nama Pasien"
+                                value={search}
+                                onChange={handleSearchChange}
                             />
                         </InputGroup>
                         <Link href={route('pemeriksaan.create')}>
@@ -90,7 +80,7 @@ export default function Index() {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {prescriptions.data.map((prescription, index) => (
+                                {data.data.map((prescription, index) => (
                                     <Tr key={prescription.id}>
                                         <Td>{index + 1}</Td>
                                         <Td>{prescription.pasien.name}</Td>
@@ -116,7 +106,7 @@ export default function Index() {
                     </TableContainer>
                 </CardBody>
                 <CardFooter>
-                    <Pagination prescriptions={prescriptions} />
+                    <Pagination prescriptions={data} />
                 </CardFooter>
             </Card>
         </LayoutDashboard>

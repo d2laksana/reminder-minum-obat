@@ -131,7 +131,7 @@ export default function Edit() {
                                             </FormControl>
 
                                             <FormControl id="dosage" isRequired>
-                                                <FormLabel>Dosis /hari</FormLabel>
+                                                <FormLabel>Dosis</FormLabel>
                                                 <NumberInput defaultValue={data.resep[index].quantity} min={0} max={4} onChange={(value) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
@@ -149,6 +149,46 @@ export default function Edit() {
                                                 </NumberInput>
                                             </FormControl>
                                         </Flex>
+
+                                        <Flex justifyContent={"space-between"} mt={4} gap={5}>
+                                            <FormControl id="aturan_konsumsi" isRequired>
+                                                <FormLabel>Aturan konsumsi / hari</FormLabel>
+                                                <NumberInput defaultValue={data.resep[index].quantity} min={0} max={4} onChange={(value) => {
+                                                    const resep = data.resep.map((item, i) => {
+                                                        if (i === index) {
+                                                            item.dosage = value;
+                                                        }
+                                                        return item;
+                                                    });
+                                                    setData('resep', resep);
+                                                }}>
+                                                    <NumberInputField />
+                                                    <NumberInputStepper>
+                                                        <NumberIncrementStepper />
+                                                        <NumberDecrementStepper />
+                                                    </NumberInputStepper>
+                                                </NumberInput>
+                                            </FormControl>
+                                            <FormControl id="total_konsumsi" isRequired>
+                                                <FormLabel>Total konsumsii</FormLabel>
+                                                <NumberInput defaultValue={data.resep[index].quantity} min={1} onChange={(value) => {
+                                                    const resep = data.resep.map((item, i) => {
+                                                        if (i === index) {
+                                                            item.dosage = value;
+                                                        }
+                                                        return item;
+                                                    });
+                                                    setData('resep', resep);
+                                                }}>
+                                                    <NumberInputField />
+                                                    <NumberInputStepper>
+                                                        <NumberIncrementStepper />
+                                                        <NumberDecrementStepper />
+                                                    </NumberInputStepper>
+                                                </NumberInput>
+                                            </FormControl>
+                                        </Flex>
+
                                         <FormControl mt={4} id="instructions" isRequired>
                                             <FormLabel>Panduan</FormLabel>
                                             <Textarea placeholder="Masukan Petunjuk minum obat" value={data.resep[index].instructions} onChange={(e) => {

@@ -23,7 +23,8 @@ class PemeriksaanController extends Controller
             });
         }
 
-        $prescriptions = $query->paginate(15);
+        $prescriptions = $query
+            ->paginate(1);
 
         return Inertia::render('Dashboard/Pemeriksaan/Index', [
             'title' => 'Pemeriksaan',
