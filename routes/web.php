@@ -7,11 +7,12 @@ use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Dashboard\OverviewController;
 use App\Http\Controllers\Dashboard\PemeriksaanController;
+use App\Http\Controllers\Dashboard\Pasien\UnggahBuktiController;
+use App\Http\Controllers\Dashboard\Pasien\JadwalKonsumsiController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 
 // route prefix /auth
 Route::prefix('auth')->group(function () {
@@ -47,5 +48,14 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         Route::get('/search', [PemeriksaanController::class, 'search'])->name('pemeriksaan.search');
         Route::get('/{id}', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
         Route::get('/{id}/edit', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
+    });
+
+    Route::prefix('jadwal')->group(function () {
+        Route::get('/', [JadwalKonsumsiController::class, 'index'])->name('pasien.jadwal');
+    });
+
+    Route::prefix('bukti')->group(function () {
+        Route::get('/', [UnggahBuktiController::class, 'index'])->name('pasien.bukti');
+        Route::post('/', [UnggahBuktiController::class, 'store'])->name('pasien.bukti.store');
     });
 });

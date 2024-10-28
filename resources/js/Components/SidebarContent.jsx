@@ -12,16 +12,21 @@ import {
 import { BiSolidWindowAlt } from "react-icons/bi";
 import { NavItem } from './NavItem'
 import { usePage } from '@inertiajs/react';
+import { BsCloudUploadFill } from "react-icons/bs";
 
 export const SidebarContent = ({ onClose, ...rest }) => {
   const { auth } = usePage().props;
   const LinkItems = [
     { name: "Overview", path: '/', icon: FiHome },
     { name: "Pemeriksaaan", path: '/pemeriksaan', icon: BiSolidWindowAlt },
+
+    // Pasien
+    { name: "Beranda", path: '/jadwal', icon: FiHome },
+    { name: "Unggah Bukti", path: '/bukti', icon: BsCloudUploadFill },
   ]
 
   const isVisible = (link) => {
-    return ['Overview', 'Pemeriksaaan'].includes(link.name);
+    return ['Overview', 'Pemeriksaaan', 'Beranda', 'Unggah Bukti'].includes(link.name);
   };
 
   return (
