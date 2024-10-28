@@ -17,14 +17,25 @@ class PemeriksaanController extends Controller
     public function index(Request $request)
     {
         $prescriptions = Prescriptions::query()
-            ->with('pasien', 'nakes.user')
+            ->with('pasien:id,name', 'nakes.user:id', 'details:id,prescription_id,created_at,aturan_konsumsi,total_konsumsi')
             ->when($request->search, function ($query, $search) {
                 $query->whereHas('pasien', function ($q) use ($search) {
                     $q->where('name', 'like', '%' . $search . '%');
                 });
             })
+            ->whereHas('nakes', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            })
             ->paginate(10)
             ->appends($request->query());
+
+        foreach ($prescriptions as $prescription) {
+            foreach ($prescription->details as $detail) {
+                $days_to_empty = $detail->total_konsumsi / $detail->aturan_konsumsi;
+                $detail->days_to_empty = ceil($days_to_empty);
+                $detail->empty_date = $detail->created_at->addDays($detail->days_to_empty)->format('d/m/Y');
+            }
+        }
 
         return Inertia::render('Dashboard/Pemeriksaan/Index', [
             'title' => 'Pemeriksaan',
@@ -81,8 +92,12 @@ class PemeriksaanController extends Controller
 
     public function show($id)
     {
-        $prescription = Prescriptions::with('pasien', 'nakes.user', 'details')->findOrFail($id);
-        // dd($prescription);
+        $prescription = Prescriptions::with('pasien:id,name,role,birth_date,gender,address', 'details')->findOrFail($id);
+        foreach ($prescription->details as $detail) {
+            $days_to_empty = $detail->total_konsumsi / $detail->aturan_konsumsi;
+            $detail->days_to_empty = ceil($days_to_empty);
+            $detail->empty_date = $detail->created_at->addDays($detail->days_to_empty)->format('d/m/Y');
+        }
 
         return Inertia::render('Dashboard/Pemeriksaan/Show', [
             'title' => 'Detail Pemeriksaan',
@@ -157,6 +172,19 @@ class PemeriksaanController extends Controller
             return redirect()->route('pemeriksaan')->with('success', 'Berhasil mengubah data pemeriksaan');
         } catch (\Throwable $th) {
             return back()->withErrors(['message' => $th->getMessage()])->withInput();
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            DB::transaction(function () use ($id) {
+                $prescription = Prescriptions::findOrFail($id);
+                $prescription->delete();
+            });
+            return redirect()->route('pemeriksaan')->with('success', 'Berhasil menghapus data pemeriksaan');
+        } catch (\Throwable $th) {
+            return back()->withErrors(['message' => $th->getMessage()]);
         }
     }
 }

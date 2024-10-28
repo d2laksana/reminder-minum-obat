@@ -47,5 +47,6 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         Route::get('/{id}', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
         Route::get('/{id}/edit', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
         Route::put('/{id}', [PemeriksaanController::class, 'update'])->name('pemeriksaan.update');
+        Route::delete('/{id}', [PemeriksaanController::class, 'destroy'])->name('pemeriksaan.destroy');
     });
 });
