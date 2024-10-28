@@ -64,6 +64,8 @@ class PemeriksaanController extends Controller
                         'medicine' => $item['medicine'],
                         'quantity' => $item['quantity'],
                         'dosage' => $item['dosage'],
+                        'aturan_konsumsi' => $item['aturan_konsumsi'],
+                        'total_konsumsi' => $item['total_konsumsi'],
                         'instructions' => $item['instructions'],
                         'status' => $item['status'],
                         'time_before_after_meal' => $item['time_before_after_meal']
@@ -143,6 +145,12 @@ class PemeriksaanController extends Controller
                             'status' => $item['status'],
                             'time_before_after_meal' => $item['time_before_after_meal']
                         ]);
+                    }
+                }
+
+                if ($request->has('deleteResep')) {
+                    foreach ($request->deleteResep as $item) {
+                        Prescription_details::findOrFail($item)->delete();
                     }
                 }
             });

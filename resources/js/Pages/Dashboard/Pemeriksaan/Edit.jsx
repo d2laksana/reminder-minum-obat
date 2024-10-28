@@ -3,7 +3,7 @@
 import LayoutDashboard from "@/Layouts/LayoutDashboard";
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Step, StepDescription, StepIcon, StepIndicator, StepNumber, Stepper, StepSeparator, StepStatus, StepTitle, Textarea, useToast } from "@chakra-ui/react";
 import { useForm, usePage } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
@@ -40,7 +40,8 @@ export default function Edit() {
             instructions: detail.instructions,
             status: detail.status,
             time_before_after_meal: detail.time_before_after_meal
-        }))
+        })),
+        deleteResep: []
     });
 
     const handleSubmit = (e) => {
@@ -69,6 +70,10 @@ export default function Edit() {
             }
         })
     }
+
+    useEffect(() => {
+        console.log(data.deleteResep);
+    }, [data]);
     return (
         <LayoutDashboard>
             <Card w={"full"} mb={10}>
@@ -237,8 +242,16 @@ export default function Edit() {
                                         </Flex>
                                         <Flex justifyContent={"end"} mt={4}>
                                             <Button colorScheme={"red"} size={"sm"} leftIcon={<IoMdClose />} onClick={() => {
-                                                const resep = data.resep.filter((_, i) => i !== index);
-                                                setData("resep", resep);
+                                                if (data.resep[index].id) {
+                                                    setData(prevData => ({
+                                                        ...prevData,
+                                                        deleteResep: [...prevData.deleteResep, data.resep[index].id],
+                                                        resep: prevData.resep.filter((_, i) => i !== index)
+                                                    }));
+                                                } else {
+                                                    const resep = data.resep.filter((_, i) => i !== index);
+                                                    setData("resep", resep);
+                                                }
                                             }}>
                                                 Hapus
                                             </Button>
