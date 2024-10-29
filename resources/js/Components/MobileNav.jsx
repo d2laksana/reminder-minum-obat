@@ -109,7 +109,7 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                             color="yellow.400"
                             fontWeight="bold"
                         >
-                            {auth.user.coins}
+                            {auth.user.coins.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                         </Text>
                     </Box>
 
