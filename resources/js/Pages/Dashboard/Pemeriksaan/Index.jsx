@@ -11,14 +11,25 @@ export default function Index() {
     const { prescriptions, filters } = usePage().props;
     const [search, setSearch] = useState(filters.search || '');
     const [data, setData] = useState(prescriptions);
+    const [loading, setLoading] = useState(false);
 
     // Fungsi untuk menangani perubahan input pencarian
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearch(value);
 
-        // Melakukan permintaan pencarian ke server setelah input berubah
-        if (value.length > 2) {
+        // Debounce function to delay the search request
+        const debounceSearch = (func, delay) => {
+            let debounceTimer;
+            return function (...args) {
+                const context = this;
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(context, args), delay);
+            };
+        };
+
+        const performSearch = () => {
+            setLoading(true);
             router.visit(route('pemeriksaan'), {
                 method: 'get',
                 data: { search: value },
@@ -28,18 +39,19 @@ export default function Index() {
                 preserveScroll: true,
                 onSuccess: (page) => {
                     setData(page.props.prescriptions);
+                    setLoading(false);
                 },
             });
-        }
+        };
+
+        debounceSearch(performSearch, 300)();
     };
 
-    // const handleSearchChange = (e) => {
-    //     const value = e.target.value;
-    //     setSearch(value);
-    //     const test = new URLSearchParams(window.location.search).get(search) || '';
-    //     console.log(test);
-    // }
-
+    const obatHabis = (details) => {
+        const maxDaysToEmpty = Math.max(...details.map(detail => detail.days_to_empty));
+        const detailWithMaxDays = details.find(detail => detail.days_to_empty === maxDaysToEmpty);
+        return detailWithMaxDays ? detailWithMaxDays.empty_date : 'N/A';
+    }
 
     return (
         <LayoutDashboard>
@@ -67,7 +79,7 @@ export default function Index() {
                     </Flex>
                 </CardHeader>
                 <CardBody>
-                    <TableContainer>
+                    <TableContainer >
                         <Table variant="simple">
                             <Thead>
                                 <Tr>
@@ -84,8 +96,8 @@ export default function Index() {
                                     <Tr key={prescription.id}>
                                         <Td>{index + 1}</Td>
                                         <Td>{prescription.pasien.name}</Td>
-                                        <Td textAlign={"center"}>30/09/2024</Td>
-                                        <Td textAlign={"center"}>30/09/2024</Td>
+                                        <Td textAlign={"center"}>{new Date(prescription.created_at).toLocaleDateString("id-ID")}</Td>
+                                        <Td textAlign={"center"}>{obatHabis(prescription.details)}</Td>
                                         <Td>
                                             <Box>
                                                 <Text color={"#63B3ED"}>50%</Text>

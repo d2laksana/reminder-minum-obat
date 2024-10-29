@@ -31,7 +31,14 @@ export default function Create() {
         diagnosis: '',
         resep: [
             {
-                medicine: '', quantity: '1', dosage: '0', instructions: '', status: '', time_before_after_meal: ''
+                medicine: '',
+                quantity: '1',
+                dosage: '',
+                aturan_konsumsi: '1',
+                total_konsumsi: '1',
+                instructions: '',
+                status: '',
+                time_before_after_meal: ''
             }
         ]
     });
@@ -110,7 +117,7 @@ export default function Create() {
                                         <Flex justifyContent={"space-between"} mt={4} gap={5}>
                                             <FormControl id="quantity" isRequired>
                                                 <FormLabel>Jumlah Obat</FormLabel>
-                                                <NumberInput defaultValue={1} min={1} onChange={(value) => {
+                                                <NumberInput defaultValue={data.resep[index].quantity} min={1} onChange={(value) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
                                                             item.quantity = value;
@@ -128,11 +135,44 @@ export default function Create() {
                                             </FormControl>
 
                                             <FormControl id="dosage" isRequired>
-                                                <FormLabel>Dosis /hari</FormLabel>
-                                                <NumberInput defaultValue={0} min={0} max={4} onChange={(value) => {
+                                                <FormLabel>Dosis</FormLabel>
+                                                <Input type="text" placeholder="Masukan dosis obat" value={data.resep[index].dosage} onChange={(e) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
-                                                            item.dosage = value;
+                                                            item.dosage = e.target.value;
+                                                        }
+                                                        return item;
+                                                    });
+                                                    setData('resep', resep);
+                                                }} />
+                                            </FormControl>
+                                        </Flex>
+
+                                        <Flex justifyContent={"space-between"} mt={4} gap={5}>
+                                            <FormControl id="aturan_konsumsi" isRequired>
+                                                <FormLabel>Aturan konsumsi / hari</FormLabel>
+                                                <NumberInput defaultValue={data.resep[index].aturan_konsumsi} min={0} max={4} onChange={(value) => {
+                                                    const resep = data.resep.map((item, i) => {
+                                                        if (i === index) {
+                                                            item.aturan_konsumsi = value;
+                                                        }
+                                                        return item;
+                                                    });
+                                                    setData('resep', resep);
+                                                }}>
+                                                    <NumberInputField />
+                                                    <NumberInputStepper>
+                                                        <NumberIncrementStepper />
+                                                        <NumberDecrementStepper />
+                                                    </NumberInputStepper>
+                                                </NumberInput>
+                                            </FormControl>
+                                            <FormControl id="total_konsumsi" isRequired>
+                                                <FormLabel>Total konsumsii</FormLabel>
+                                                <NumberInput defaultValue={data.resep[index].total_konsumsi} min={1} onChange={(value) => {
+                                                    const resep = data.resep.map((item, i) => {
+                                                        if (i === index) {
+                                                            item.total_konsumsi = value;
                                                         }
                                                         return item;
                                                     });

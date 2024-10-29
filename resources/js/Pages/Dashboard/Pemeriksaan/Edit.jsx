@@ -3,7 +3,7 @@
 import LayoutDashboard from "@/Layouts/LayoutDashboard";
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Step, StepDescription, StepIcon, StepIndicator, StepNumber, Stepper, StepSeparator, StepStatus, StepTitle, Textarea, useToast } from "@chakra-ui/react";
 import { useForm, usePage } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
@@ -27,22 +27,26 @@ export default function Edit() {
         window.scrollTo(0, 0);
     }
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, put, processing, errors } = useForm({
         bpjs_number: prescription.pasien.bpjs_number,
         diagnosis: prescription.diagnosis,
         resep: prescription.details.map((detail) => ({
+            id: detail.id,
             medicine: detail.medicine,
             quantity: detail.quantity,
             dosage: detail.dosage,
+            aturan_konsumsi: detail.aturan_konsumsi,
+            total_konsumsi: detail.total_konsumsi,
             instructions: detail.instructions,
             status: detail.status,
             time_before_after_meal: detail.time_before_after_meal
-        }))
+        })),
+        deleteResep: []
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('pemeriksaan.store'), {
+        put(route('pemeriksaan.update', prescription.id), {
             onSuccess: () => {
                 toast({
                     title: "Success",
@@ -66,6 +70,10 @@ export default function Edit() {
             }
         })
     }
+
+    useEffect(() => {
+        console.log(data.deleteResep);
+    }, [data]);
     return (
         <LayoutDashboard>
             <Card w={"full"} mb={10}>
@@ -132,31 +140,25 @@ export default function Edit() {
 
                                             <FormControl id="dosage" isRequired>
                                                 <FormLabel>Dosis</FormLabel>
-                                                <NumberInput defaultValue={data.resep[index].quantity} min={0} max={4} onChange={(value) => {
+                                                <Input type="text" placeholder="Masukan dosis obat" value={data.resep[index].dosage} onChange={(e) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
-                                                            item.dosage = value;
+                                                            item.dosage = e.target.value;
                                                         }
                                                         return item;
                                                     });
                                                     setData('resep', resep);
-                                                }}>
-                                                    <NumberInputField />
-                                                    <NumberInputStepper>
-                                                        <NumberIncrementStepper />
-                                                        <NumberDecrementStepper />
-                                                    </NumberInputStepper>
-                                                </NumberInput>
+                                                }} />
                                             </FormControl>
                                         </Flex>
 
                                         <Flex justifyContent={"space-between"} mt={4} gap={5}>
                                             <FormControl id="aturan_konsumsi" isRequired>
                                                 <FormLabel>Aturan konsumsi / hari</FormLabel>
-                                                <NumberInput defaultValue={data.resep[index].quantity} min={0} max={4} onChange={(value) => {
+                                                <NumberInput defaultValue={data.resep[index].aturan_konsumsi} min={0} max={4} onChange={(value) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
-                                                            item.dosage = value;
+                                                            item.aturan_konsumsi = value;
                                                         }
                                                         return item;
                                                     });
@@ -171,10 +173,10 @@ export default function Edit() {
                                             </FormControl>
                                             <FormControl id="total_konsumsi" isRequired>
                                                 <FormLabel>Total konsumsii</FormLabel>
-                                                <NumberInput defaultValue={data.resep[index].quantity} min={1} onChange={(value) => {
+                                                <NumberInput defaultValue={data.resep[index].total_konsumsi} min={1} onChange={(value) => {
                                                     const resep = data.resep.map((item, i) => {
                                                         if (i === index) {
-                                                            item.dosage = value;
+                                                            item.total_konsumsi = value;
                                                         }
                                                         return item;
                                                     });
@@ -240,8 +242,16 @@ export default function Edit() {
                                         </Flex>
                                         <Flex justifyContent={"end"} mt={4}>
                                             <Button colorScheme={"red"} size={"sm"} leftIcon={<IoMdClose />} onClick={() => {
-                                                const resep = data.resep.filter((_, i) => i !== index);
-                                                setData("resep", resep);
+                                                if (data.resep[index].id) {
+                                                    setData(prevData => ({
+                                                        ...prevData,
+                                                        deleteResep: [...prevData.deleteResep, data.resep[index].id],
+                                                        resep: prevData.resep.filter((_, i) => i !== index)
+                                                    }));
+                                                } else {
+                                                    const resep = data.resep.filter((_, i) => i !== index);
+                                                    setData("resep", resep);
+                                                }
                                             }}>
                                                 Hapus
                                             </Button>
