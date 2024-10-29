@@ -11,6 +11,8 @@ use App\Http\Controllers\Dashboard\Pasien\UnggahBuktiController;
 use App\Http\Controllers\Dashboard\Pasien\JadwalKonsumsiController;
 use App\Http\Controllers\Dashboard\Pasien\PencapaianController;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,26 +44,30 @@ Route::prefix('auth')->group(function () {
 Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/', [OverviewController::class, 'index'])->name('home');
 
-    Route::prefix('pemeriksaan')->group(function () {
-        Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
-        Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
-        Route::post('/', [PemeriksaanController::class, 'store'])->name('pemeriksaan.store');
-        Route::get('/{id}', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
-        Route::get('/{id}/edit', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
-        Route::put('/{id}', [PemeriksaanController::class, 'update'])->name('pemeriksaan.update');
-        Route::delete('/{id}', [PemeriksaanController::class, 'destroy'])->name('pemeriksaan.destroy');
+    Route::middleware('role:nakes,admin')->group(function () {
+        Route::prefix('pemeriksaan')->group(function () {
+            Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
+            Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
+            Route::post('/', [PemeriksaanController::class, 'store'])->name('pemeriksaan.store');
+            Route::get('/{id}', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
+            Route::get('/{id}/edit', [PemeriksaanController::class, 'edit'])->name('pemeriksaan.edit');
+            Route::put('/{id}', [PemeriksaanController::class, 'update'])->name('pemeriksaan.update');
+            Route::delete('/{id}', [PemeriksaanController::class, 'destroy'])->name('pemeriksaan.destroy');
+        });
     });
 
-    Route::prefix('jadwal')->group(function () {
-        Route::get('/', [JadwalKonsumsiController::class, 'index'])->name('pasien.jadwal');
-    });
+    Route::middleware('role:pasien,admin')->group(function () {
+        Route::prefix('jadwal')->group(function () {
+            Route::get('/', [JadwalKonsumsiController::class, 'index'])->name('pasien.jadwal');
+        });
 
-    Route::prefix('bukti')->group(function () {
-        Route::get('/', [UnggahBuktiController::class, 'index'])->name('pasien.bukti');
-        Route::post('/', [UnggahBuktiController::class, 'store'])->name('pasien.bukti.store');
-    });
+        Route::prefix('bukti')->group(function () {
+            Route::get('/', [UnggahBuktiController::class, 'index'])->name('pasien.bukti');
+            Route::post('/', [UnggahBuktiController::class, 'store'])->name('pasien.bukti.store');
+        });
 
-    Route::prefix('pencapaian')->group(function () {
-        Route::get('/', [PencapaianController::class, 'index'])->name('pasien.pencapaian');
+        Route::prefix('pencapaian')->group(function () {
+            Route::get('/', [PencapaianController::class, 'index'])->name('pasien.pencapaian');
+        });
     });
 });

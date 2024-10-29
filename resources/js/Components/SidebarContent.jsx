@@ -28,7 +28,11 @@ export const SidebarContent = ({ onClose, ...rest }) => {
   ]
 
   const isVisible = (link) => {
-    return ['Overview', 'Pemeriksaaan', 'Beranda', 'Unggah Bukti', 'Pencapaian'].includes(link.name);
+    if (auth.user.role === 'nakes') {
+      return ['Overview', 'Pemeriksaaan'].includes(link.name);
+    } else if (auth.user.role === 'pasien') {
+      return ['Beranda', 'Unggah Bukti', 'Pencapaian'].includes(link.name);
+    }
   };
 
   return (
