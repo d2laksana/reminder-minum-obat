@@ -109,7 +109,7 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                             color="yellow.400"
                             fontWeight="bold"
                         >
-                            1000
+                            {auth.user.coins}
                         </Text>
                     </Box>
 
