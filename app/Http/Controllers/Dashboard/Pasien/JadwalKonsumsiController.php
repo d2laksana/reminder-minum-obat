@@ -17,7 +17,7 @@ class JadwalKonsumsiController extends Controller
 			->latest()
 			->first();
 
-		return Inertia::render('Dashboard/UnggahBukti/Index', [
+		return Inertia::render('Dashboard/Jadwal/Index', [
 			'title' => 'Pemeriksaan',
 			'prescriptions' => $prescriptions,
 		]);
