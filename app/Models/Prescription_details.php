@@ -18,4 +18,9 @@ class Prescription_details extends Model
         'aturan_konsumsi',
         'total_konsumsi'
     ];
+
+    public function Laporan()
+    {
+        return $this->hasMany(Laporan::class, 'prescription_detail_id');
+    }
 }

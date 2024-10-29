@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Laporan;
 use App\Models\Nakes;
 use App\Models\Prescription_details;
 use App\Models\Prescriptions;
@@ -30,13 +31,27 @@ class PemeriksaanController extends Controller
             ->appends($request->query());
 
         foreach ($prescriptions as $prescription) {
+            $totalProgress = 0;
+            $detailCount = $prescription->details->count();
+
             foreach ($prescription->details as $detail) {
+                $reported_konsumsi = Laporan::where('prescription_detail_id', $detail->id)
+                    ->count();
+
+                // Hitung progres konsumsi obat
+                $detail->progress = $detail->total_konsumsi > 0
+                    ? ($reported_konsumsi / $detail->total_konsumsi) * 100
+                    : 0;
+
+
                 $days_to_empty = $detail->total_konsumsi / $detail->aturan_konsumsi;
                 $detail->days_to_empty = ceil($days_to_empty);
                 $detail->empty_date = $detail->created_at->addDays($detail->days_to_empty)->format('d/m/Y');
-            }
-        }
 
+                $totalProgress += $detail->progress;
+            }
+            $prescription->progress = $detailCount > 0 ? $totalProgress / $detailCount : 0;
+        }
         return Inertia::render('Dashboard/Pemeriksaan/Index', [
             'title' => 'Pemeriksaan',
             'prescriptions' => $prescriptions,

@@ -100,8 +100,8 @@ export default function Index() {
                                         <Td textAlign={"center"}>{obatHabis(prescription.details)}</Td>
                                         <Td>
                                             <Box>
-                                                <Text color={"#63B3ED"}>50%</Text>
-                                                <Progress value={50} colorScheme="blue" size="sm" w="full" />
+                                                <Text color={"#63B3ED"}>{prescription.progress}%</Text>
+                                                <Progress value={prescription.progress} colorScheme="blue" size="sm" w="full" />
                                             </Box>
                                         </Td>
                                         <Td>
