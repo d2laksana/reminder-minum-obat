@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\OverviewController;
 use App\Http\Controllers\Dashboard\PemeriksaanController;
 use App\Http\Controllers\Dashboard\Pasien\UnggahBuktiController;
 use App\Http\Controllers\Dashboard\Pasien\JadwalKonsumsiController;
+use App\Http\Controllers\Dashboard\Pasien\PencapaianController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -58,5 +59,9 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::prefix('bukti')->group(function () {
         Route::get('/', [UnggahBuktiController::class, 'index'])->name('pasien.bukti');
         Route::post('/', [UnggahBuktiController::class, 'store'])->name('pasien.bukti.store');
+    });
+
+    Route::prefix('pencapaian')->group(function () {
+        Route::get('/', [PencapaianController::class, 'index'])->name('pasien.pencapaian');
     });
 });

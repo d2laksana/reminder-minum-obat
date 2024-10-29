@@ -13,6 +13,7 @@ import { BiSolidWindowAlt } from "react-icons/bi";
 import { NavItem } from './NavItem'
 import { usePage } from '@inertiajs/react';
 import { BsCloudUploadFill } from "react-icons/bs";
+import { FaChartSimple } from "react-icons/fa6";
 
 export const SidebarContent = ({ onClose, ...rest }) => {
   const { auth } = usePage().props;
@@ -23,10 +24,11 @@ export const SidebarContent = ({ onClose, ...rest }) => {
     // Pasien
     { name: "Beranda", path: '/jadwal', icon: FiHome },
     { name: "Unggah Bukti", path: '/bukti', icon: BsCloudUploadFill },
+    { name: "Pencapaian", path: '/pencapaian', icon: FaChartSimple },
   ]
 
   const isVisible = (link) => {
-    return ['Overview', 'Pemeriksaaan', 'Beranda', 'Unggah Bukti'].includes(link.name);
+    return ['Overview', 'Pemeriksaaan', 'Beranda', 'Unggah Bukti', 'Pencapaian'].includes(link.name);
   };
 
   return (
