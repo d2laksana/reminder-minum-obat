@@ -34,7 +34,8 @@ class LoginController extends Controller
       }
 
       $request->session()->regenerate();
-      return redirect()->route('home');
+      // check if user role is pasien then redirect to pasien.jadwal route else redirect to home route
+      return redirect()->route(Auth::user()->role === 'pasien' ? 'pasien.jadwal' : 'home');
     }
 
     return redirect()->back()->withErrors([
