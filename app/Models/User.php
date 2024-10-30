@@ -55,4 +55,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function FcmToken()
+    {
+        return $this->hasOne(FcmToken::class);
+    }
 }

@@ -2,9 +2,11 @@ import { Text, Image, Box, Flex, Input, Button, InputGroup, FormControl, Switch,
 import mobilejkn from "@/Assets/img/mobilejkn.png";
 import { Link } from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
+import { useFirebase } from "@/Contexts/FirebaseContext";
 
 export default function Login() {
 	const toast = useToast();
+	const { setAuth, requestForToken } = useFirebase();
 	const { data, setData, post, processing, errors } = useForm({
 		email: "",
 		password: "",
@@ -23,6 +25,8 @@ export default function Login() {
 					isClosable: true,
 					position: "top-right",
 				});
+				setAuth(true);
+				requestForToken();
 			},
 		});
 	}
@@ -39,7 +43,7 @@ export default function Login() {
 							<FormControl isRequired isInvalid={errors.email}>
 								<FormLabel>Email</FormLabel>
 								<InputGroup>
-									<Input type="email" placeholder="Alamat email anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, email: e.target.value})} value={data.email} />
+									<Input type="email" placeholder="Alamat email anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, email: e.target.value })} value={data.email} />
 								</InputGroup>
 								{errors.email && <FormErrorMessage>{errors.email}</FormErrorMessage>}
 							</FormControl>
@@ -47,14 +51,14 @@ export default function Login() {
 							<FormControl isRequired mt={5} isInvalid={errors.password}>
 								<FormLabel>Kata Sandi</FormLabel>
 								<InputGroup>
-									<Input type="password" placeholder="Kata sandi anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({...data, password: e.target.value})} value={data.password} />
+									<Input type="password" placeholder="Kata sandi anda" py={6} borderRadius={"2xl"} onChange={(e) => setData({ ...data, password: e.target.value })} value={data.password} />
 								</InputGroup>
 								{errors.password && <FormErrorMessage>{errors.password}</FormErrorMessage>}
 							</FormControl>
 
 							<Flex justifyContent={"space-between"} mt={5}>
 								<Flex alignItems={"center"}>
-									<Switch size="lg" colorScheme="brand" onChange={(e) => setData({...data, remember: e.target.checked})} />
+									<Switch size="lg" colorScheme="brand" onChange={(e) => setData({ ...data, remember: e.target.checked })} />
 									<Text ml={2}>Ingat saya</Text>
 								</Flex>
 								<Text color={"brand.600"} cursor={"pointer"} fontWeight={"600"}>Lupa kata sandi?</Text>
@@ -70,7 +74,7 @@ export default function Login() {
 							</Flex>
 						</Box>
 					</form>
-						
+
 				</Box>
 			</Box>
 			<Box w={"50%"} maxH={"100vh"} minH={"100vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}>

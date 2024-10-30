@@ -6,6 +6,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import theme from './Theme/theme';
+import { FirebaseProvider } from './Contexts/FirebaseContext';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -21,7 +22,9 @@ createInertiaApp({
 
         root.render(
             <ChakraProvider theme={theme}>
-                <App {...props} />
+                <FirebaseProvider>
+                    <App {...props} />
+                </FirebaseProvider>
             </ChakraProvider>
         );
     },

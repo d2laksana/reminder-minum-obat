@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\PemeriksaanController;
 use App\Http\Controllers\Dashboard\Pasien\UnggahBuktiController;
 use App\Http\Controllers\Dashboard\Pasien\JadwalKonsumsiController;
 use App\Http\Controllers\Dashboard\Pasien\PencapaianController;
+use App\Http\Controllers\FcmTokenController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Container\Attributes\Auth;
@@ -44,6 +45,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/', [OverviewController::class, 'index'])->name('home');
 
+
     Route::middleware('role:nakes,admin')->group(function () {
         Route::prefix('pemeriksaan')->group(function () {
             Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
@@ -70,4 +72,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             Route::get('/', [PencapaianController::class, 'index'])->name('pasien.pencapaian');
         });
     });
+
+
+    Route::post('/fcm-token', [FcmTokenController::class, 'store'])->name('fcm.token');
 });
