@@ -81,7 +81,7 @@ export default function Index({ types, items }) {
             <Card borderRadius={"xl"} p={10}>
 				<Text fontSize={"2xl"} fontWeight={"bold"}>Kategori</Text>
 				<Flex alignItems={"center"} justifyContent={"start"} mt={5} gap={7}>
-					{types.map((type, index) => (
+					{types && types.map((type, index) => (
 						<Box key={index} borderRadius={"20%"} width={"120px"} height={"120px"} bg={active == type.name ? "yellow.300" : "white"} color={active == type.name ? "white" : "black"} shadow={"lg"} border={active == type.name ? "1px solid #F6E05E" : "1px solid #E2E8F0"} cursor={"pointer"} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDir={"column"} onClick={() => setActive(type.name)}>
 							<Box borderRadius={"full"} width={"50px"} height={"50px"} bg={active == type.name ? "white" : "yellow.100"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
 								{icons[index].icon}
