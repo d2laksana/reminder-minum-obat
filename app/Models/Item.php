@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    //
     protected $fillable = [
         'name',
         'item_type_id',
@@ -14,4 +13,9 @@ class Item extends Model
         'description',
         'image'
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(ItemType::class, 'item_type_id');
+    }
 }

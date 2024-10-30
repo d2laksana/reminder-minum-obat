@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\PemeriksaanController;
 use App\Http\Controllers\Dashboard\Pasien\UnggahBuktiController;
 use App\Http\Controllers\Dashboard\Pasien\JadwalKonsumsiController;
 use App\Http\Controllers\Dashboard\Pasien\PencapaianController;
+use App\Http\Controllers\Dashboard\Pasien\StoreController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Container\Attributes\Auth;
@@ -42,9 +43,9 @@ Route::prefix('auth')->group(function () {
 
 
 Route::middleware(AuthMiddleware::class)->group(function () {
-    Route::get('/', [OverviewController::class, 'index'])->name('home');
-
     Route::middleware('role:nakes,admin')->group(function () {
+        Route::get('/', [OverviewController::class, 'index'])->name('home');
+        
         Route::prefix('pemeriksaan')->group(function () {
             Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
             Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
@@ -68,6 +69,11 @@ Route::middleware(AuthMiddleware::class)->group(function () {
 
         Route::prefix('pencapaian')->group(function () {
             Route::get('/', [PencapaianController::class, 'index'])->name('pasien.pencapaian');
+        });
+
+        Route::prefix('store')->group(function () {
+            Route::get('/', [StoreController::class, 'index'])->name('pasien.store');
+            Route::post('/purchase', [StoreController::class, 'purchase'])->name('pasien.store.purchase');
         });
     });
 });

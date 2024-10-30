@@ -24,7 +24,9 @@ export default function Index({ logs }) {
 			<Card borderRadius={"xl"} p={10} mt={5} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
 				<Flex alignItems={"center"} justifyContent={"space-between"} width={"100%"}>
 					<Text fontSize={"2xl"} fontWeight={"bold"}>Riwayat Poin</Text>
-					<Button colorScheme={"yellow"} color={"white"}>Tukar Poin</Button>
+					<Link href={route("pasien.store")}>
+						<Button bg={"yellow.300"} size={"sm"} color={"white"} _hover={{ bg: "yellow.400" }} size={"md"}>Tukar Poin</Button>
+					</Link>
 				</Flex>
 
 				{logs && logs.map((log, index) => (
@@ -34,7 +36,6 @@ export default function Index({ logs }) {
 							<BsLightningFill size={"25"} color={"#F6E05E"} />
 						</Box>
 
-						
 						<Flex flexDirection={"column"} ml={5}>
 							<Text fontSize={"lg"} fontWeight={"bold"}>{log.title}</Text>
 							<Text fontSize={"sm"} color={"gray.400"}>{log.coins} koin</Text>
