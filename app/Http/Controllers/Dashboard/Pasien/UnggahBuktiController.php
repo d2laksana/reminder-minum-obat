@@ -43,7 +43,7 @@ class UnggahBuktiController extends Controller
 		// Store to database
 		Laporan::create([
 			'prescription_detail_id' => $request->prescription_detail_id,
-			'status' => $request->status == 'true ' ? 'sembuh' : 'sakit',
+			'status' => $request->status == 'true' ? 'sembuh' : 'sakit',
 			'photo' => url('storage/bukti/' . $photoName),
 			'description' => $request->description,
 		]);
