@@ -13,4 +13,9 @@ class Laporan extends Model
         'photo',
         'description'
     ];
+
+    public function prescriptionDetail()
+    {
+        return $this->belongsTo(Prescription_details::class);
+    }
 }

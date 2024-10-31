@@ -48,7 +48,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware(AuthMiddleware::class)->group(function () {
     Route::middleware('role:nakes,admin')->group(function () {
         Route::get('/', [OverviewController::class, 'index'])->name('home');
-        
+
         Route::prefix('pemeriksaan')->group(function () {
             Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
             Route::get('/create', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
@@ -63,7 +63,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::middleware('role:pasien,admin')->group(function () {
         Route::get('/avatar', [AvatarController::class, 'index'])->name('avatar');
         Route::post('/avatar', [AvatarController::class, 'store'])->name('avatar.store');
-        
+
         Route::prefix('jadwal')->group(function () {
             Route::get('/', [JadwalKonsumsiController::class, 'index'])->name('pasien.jadwal');
         });
@@ -87,4 +87,5 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     });
 
     Route::post('/fcm-token', [FcmTokenController::class, 'store'])->name('fcm.token');
+    Route::get('/fcm-message', [FcmTokenController::class, 'broadcastNotification'])->name('fcm.message');
 });

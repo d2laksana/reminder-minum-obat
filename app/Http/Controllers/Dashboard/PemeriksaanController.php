@@ -38,17 +38,32 @@ class PemeriksaanController extends Controller
                 $reported_konsumsi = Laporan::where('prescription_detail_id', $detail->id)
                     ->count();
 
-                // Hitung progres konsumsi obat
-                $detail->progress = $detail->total_konsumsi > 0
-                    ? ($reported_konsumsi / $detail->total_konsumsi) * 100
-                    : 0;
+                $laporan = Laporan::where('prescription_detail_id', $detail->id)
+                    ->whereIn('id', function ($query) {
+                        $query->select(DB::raw('MAX(id)')) // Ambil ID terbesar (terbaru) untuk setiap pasien
+                            ->from('laporans')
+                            ->groupBy('prescription_detail_id');
+                    })->get();
+                // dd($laporan[]);
+                if ($laporan && $laporan[0]->status !== 'sembuh') {
+                    $detail->progress = $detail->total_konsumsi > 0
+                        ? ($reported_konsumsi / $detail->total_konsumsi) * 100
+                        : 0;
+
+                    $totalProgress += $detail->progress;
+                    $users[] = $prescription->pasien_id;
+                } else {
+                    $detail->progress = $detail->total_konsumsi > 0
+                        ? ($detail->total_konsumsi / $detail->total_konsumsi) * 100
+                        : 0;
+
+                    $totalProgress += $detail->progress;
+                }
 
 
                 $days_to_empty = $detail->total_konsumsi / $detail->aturan_konsumsi;
                 $detail->days_to_empty = ceil($days_to_empty);
                 $detail->empty_date = $detail->created_at->addDays($detail->days_to_empty)->format('d/m/Y');
-
-                $totalProgress += $detail->progress;
             }
             $prescription->progress = $detailCount > 0 ? $totalProgress / $detailCount : 0;
         }

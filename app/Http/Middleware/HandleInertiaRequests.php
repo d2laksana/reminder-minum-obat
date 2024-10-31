@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,7 +36,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'cosmetic' => User::where('id', $request->user()->id)->with('border')->first(),
+            'cosmetic' => Auth::check() ? User::where('id', $request->user()->id)->with('border')->first() : null,
         ];
     }
 }

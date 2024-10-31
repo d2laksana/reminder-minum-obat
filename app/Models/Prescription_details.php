@@ -23,4 +23,9 @@ class Prescription_details extends Model
     {
         return $this->hasMany(Laporan::class, 'prescription_detail_id');
     }
+
+    public function prescription()
+    {
+        return $this->belongsTo(Prescriptions::class);
+    }
 }
