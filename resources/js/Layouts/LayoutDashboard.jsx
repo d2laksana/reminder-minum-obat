@@ -15,7 +15,7 @@ const LayoutDashboard = (props) => {
             <Head>
                 <title>{title}</title>
             </Head>
-            <Box minH="100vh" bg={useColorModeValue('#ECF8FF', 'gray.800')}>
+            <Box minH="100vh" bg={useColorModeValue('#ECF8FF', 'gray.800')} pb={5}>
                 <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
                 <Drawer
                     isOpen={isOpen}

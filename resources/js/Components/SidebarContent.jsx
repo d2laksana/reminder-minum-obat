@@ -13,7 +13,8 @@ import { BiSolidWindowAlt } from "react-icons/bi";
 import { NavItem } from './NavItem'
 import { usePage } from '@inertiajs/react';
 import { BsCloudUploadFill } from "react-icons/bs";
-import { FaChartSimple } from "react-icons/fa6";
+import { FaChartSimple, FaCartShopping } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
 
 export const SidebarContent = ({ onClose, ...rest }) => {
   const { auth } = usePage().props;
@@ -22,16 +23,17 @@ export const SidebarContent = ({ onClose, ...rest }) => {
     { name: "Pemeriksaaan", path: '/pemeriksaan', icon: BiSolidWindowAlt },
 
     // Pasien
-    { name: "Beranda", path: '/jadwal', icon: FiHome },
+    { name: "Beranda", path: '/jadwal', icon: FaHome },
     { name: "Unggah Bukti", path: '/bukti', icon: BsCloudUploadFill },
     { name: "Pencapaian", path: '/pencapaian', icon: FaChartSimple },
+    { name: "Toko", path: '/store', icon: FaCartShopping },
   ]
 
   const isVisible = (link) => {
     if (auth.user.role === 'nakes') {
       return ['Overview', 'Pemeriksaaan'].includes(link.name);
     } else if (auth.user.role === 'pasien') {
-      return ['Beranda', 'Unggah Bukti', 'Pencapaian'].includes(link.name);
+      return ['Beranda', 'Unggah Bukti', 'Pencapaian', 'Toko'].includes(link.name);
     }
   };
 
