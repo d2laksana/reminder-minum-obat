@@ -106,7 +106,7 @@ export default function Index({ types, items }) {
 								<Badge colorScheme={"yellow"} fontSize={"xs"}>{item.price} Koin</Badge>
 							</Flex>
 
-							<Button bg={"yellow.300"} size={"sm"} mt={4} width={"100%"} color={"white"} _hover={{ bg: "yellow.400" }} onClick={() => {
+							<Button bg={"brand.300"} size={"sm"} mt={4} width={"100%"} color={"white"} _hover={{ bg: "brand.400" }} onClick={() => {
 								setData({...data, item_id: item.id});
 								onOpen();
 							}}>Beli</Button>
@@ -138,7 +138,7 @@ export default function Index({ types, items }) {
 					<Button ref={cancelRef} onClick={onClose}>
 						Cancel
 					</Button>
-					<Button isLoading={processing} ms={2} w={"20%"} bg={"yellow.300"} size={"md"} color={"white"} _hover={{ bg: "yellow.400" }} onClick={handlePurchase}>
+					<Button isLoading={processing} ms={2} w={"20%"} bg={"brand.300"} size={"md"} color={"white"} _hover={{ bg: "brand.400" }} onClick={handlePurchase}>
 						Beli
 					</Button>
 					</AlertDialogFooter>

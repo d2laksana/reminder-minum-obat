@@ -100,7 +100,7 @@ export default function Index() {
                                     <FormLabel>Nama obat</FormLabel>
                                     <InputGroup>
                                         <Select placeholder="Pilih obat" height={"50"} borderRadius={"2xl"} onChange={(e) => setData('prescription_detail_id', e.target.value)}>
-                                            {prescriptions.details.map((prescription, index) => (
+                                            {prescriptions && prescriptions.details && prescriptions.details.map((prescription, index) => (
                                                 <option key={index} value={prescription.id}>{prescription.medicine}</option>
                                             ))}
                                         </Select>

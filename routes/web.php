@@ -12,6 +12,8 @@ use App\Http\Controllers\Dashboard\Pasien\JadwalKonsumsiController;
 use App\Http\Controllers\Dashboard\Pasien\PencapaianController;
 use App\Http\Controllers\FcmTokenController;
 use App\Http\Controllers\Dashboard\Pasien\StoreController;
+use App\Http\Controllers\Dashboard\Pasien\AvatarController;
+use App\Http\Controllers\Dashboard\Pasien\UserController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Container\Attributes\Auth;
@@ -59,6 +61,9 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     });
 
     Route::middleware('role:pasien,admin')->group(function () {
+        Route::get('/avatar', [AvatarController::class, 'index'])->name('avatar');
+        Route::post('/avatar', [AvatarController::class, 'store'])->name('avatar.store');
+        
         Route::prefix('jadwal')->group(function () {
             Route::get('/', [JadwalKonsumsiController::class, 'index'])->name('pasien.jadwal');
         });
@@ -76,8 +81,10 @@ Route::middleware(AuthMiddleware::class)->group(function () {
             Route::get('/', [StoreController::class, 'index'])->name('pasien.store');
             Route::post('/purchase', [StoreController::class, 'purchase'])->name('pasien.store.purchase');
         });
-    });
 
+        Route::get('/user', [UserController::class, 'list'])->name('pasien.user.list');
+        Route::get('/user/{id}', [UserController::class, 'index'])->name('pasien.user');
+    });
 
     Route::post('/fcm-token', [FcmTokenController::class, 'store'])->name('fcm.token');
 });

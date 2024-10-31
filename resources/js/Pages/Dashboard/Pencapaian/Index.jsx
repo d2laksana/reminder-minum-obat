@@ -25,7 +25,7 @@ export default function Index({ logs }) {
 				<Flex alignItems={"center"} justifyContent={"space-between"} width={"100%"}>
 					<Text fontSize={"2xl"} fontWeight={"bold"}>Riwayat Poin</Text>
 					<Link href={route("pasien.store")}>
-						<Button bg={"yellow.300"} size={"sm"} color={"white"} _hover={{ bg: "yellow.400" }} size={"md"}>Tukar Poin</Button>
+						<Button bg={"brand.300"} color={"white"} _hover={{ bg: "brand.400" }} size={"md"}>Tukar Poin</Button>
 					</Link>
 				</Flex>
 

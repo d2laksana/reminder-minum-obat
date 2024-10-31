@@ -30,7 +30,7 @@ export default function Index() {
                                 </Tr>
                             </Thead>
                             <Tbody>
-								{prescriptions.details.map((prescription, index) => (
+								{prescriptions && prescriptions.details.map((prescription, index) => (
 									<Tr key={index}>
 										<Td>{index + 1}</Td>
 										<Td>{prescription.medicine}</Td>
@@ -39,6 +39,12 @@ export default function Index() {
 										<Td>{prescription.time_before_after_meal == 'after' ? 'Setelah makan' : 'Sebelum makan'}</Td>
 									</Tr>
 								))}
+
+                                {!prescriptions && (
+                                    <Tr>
+                                        <Td colSpan="5" textAlign="center">Anda belum memiliki jadwal konsumsi obat</Td>
+                                    </Tr>
+                                )}
                             </Tbody>
                         </Table>
                     </TableContainer>

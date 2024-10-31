@@ -60,4 +60,16 @@ class User extends Authenticatable
     {
         return $this->hasOne(FcmToken::class);
     }
+
+    public function border()
+    {
+        return $this->hasOne(Inventory::class)
+            ->where('equipped', 1) 
+            ->with(['item' => function ($query) {
+                $query->whereHas('type', function ($query) {
+                    $query->where('name', 'Border');
+                });
+            }]);
+    }
+
 }

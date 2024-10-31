@@ -1,6 +1,5 @@
-import {
+import { 
     IconButton,
-    Avatar,
     Box,
     Flex,
     HStack,
@@ -19,12 +18,13 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
+    Avatar
 } from "@chakra-ui/react";
 
 import {
     FiMenu,
     FiChevronDown,
-} from 'react-icons/fi'
+} from 'react-icons/fi';
 
 import { timeSince } from '@/Helpers/timeSince';
 
@@ -37,9 +37,8 @@ import { IoSearch } from "react-icons/io5";
 import { FaCoins } from "react-icons/fa6";
 
 export const MobileNav = ({ onOpen, ...rest }) => {
-    const { auth } = usePage().props;
+    const { auth, cosmetic } = usePage().props;
     const toast = useToast();
-
     const { colorMode, toggleColorMode } = useColorMode();
 
     function capitalizeFirstLetter(value) {
@@ -149,12 +148,43 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                             _focus={{ boxShadow: "none" }}
                         >
                             <HStack>
-                                <Avatar
-                                    size={"sm"}
-                                    src={
-                                        "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                                    }
-                                />
+                                <div
+                                    style={{
+                                        position: "relative",
+                                        width: "60px",
+                                        height: "60px",
+                                        borderRadius: "50%",
+                                        overflow: "hidden",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <img
+                                        src={cosmetic.border ? cosmetic.border.item.image : "http://127.0.0.1:8000/storage/cosmetics/borders/border2.png"}
+                                        alt="Border"
+                                        style={{
+                                            position: "absolute",
+                                            width: "100%",
+                                            height: "100%",
+                                            zIndex: 1,
+                                        }}
+                                    />
+                                    <Avatar
+                                        style={{
+                                            width: "40px",
+                                            height: "40px",
+                                            borderRadius: "50%",
+                                            zIndex: 0, // Places avatar behind the border
+                                        }}
+                                        src={
+                                            auth.user.avatar
+                                                ? auth.user.avatar
+                                                : "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                                        }
+                                    />
+                                </div>
+
                                 <VStack
                                     display={{ base: "none", md: "flex" }}
                                     alignItems="flex-start"
@@ -173,6 +203,7 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                                 </Box>
                             </HStack>
                         </MenuButton>
+
                         <MenuList
                             bg={useColorModeValue("white", "gray.700")}
                             borderColor={useColorModeValue(
@@ -180,7 +211,7 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                                 "gray.700"
                             )}
                         >
-                            <Link href="/profile">
+                            <Link href={auth.user.role === "pasien" ? route("pasien.user", auth.user.id) : "#"}>
                                 <MenuItem>Profil</MenuItem>
                             </Link>
                             <MenuItem>Pengaturan</MenuItem>
@@ -200,4 +231,4 @@ export const MobileNav = ({ onOpen, ...rest }) => {
             </HStack>
         </Flex>
     );
-}
+};

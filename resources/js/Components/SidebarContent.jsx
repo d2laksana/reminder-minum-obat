@@ -14,7 +14,7 @@ import { NavItem } from './NavItem'
 import { usePage } from '@inertiajs/react';
 import { BsCloudUploadFill } from "react-icons/bs";
 import { FaChartSimple, FaCartShopping } from "react-icons/fa6";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaUserFriends } from "react-icons/fa";
 
 export const SidebarContent = ({ onClose, ...rest }) => {
   const { auth } = usePage().props;
@@ -27,13 +27,14 @@ export const SidebarContent = ({ onClose, ...rest }) => {
     { name: "Unggah Bukti", path: '/bukti', icon: BsCloudUploadFill },
     { name: "Pencapaian", path: '/pencapaian', icon: FaChartSimple },
     { name: "Toko", path: '/store', icon: FaCartShopping },
+    { name: "Teman", path: '/user', icon: FaUserFriends },
   ]
 
   const isVisible = (link) => {
     if (auth.user.role === 'nakes') {
       return ['Overview', 'Pemeriksaaan'].includes(link.name);
     } else if (auth.user.role === 'pasien') {
-      return ['Beranda', 'Unggah Bukti', 'Pencapaian', 'Toko'].includes(link.name);
+      return ['Beranda', 'Unggah Bukti', 'Pencapaian', 'Toko', 'Teman'].includes(link.name);
     }
   };
 
