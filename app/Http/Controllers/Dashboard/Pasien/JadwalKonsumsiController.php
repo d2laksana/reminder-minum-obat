@@ -17,7 +17,7 @@ class JadwalKonsumsiController extends Controller
 			->latest()
 			->first();
 
-		$details = $prescriptions->details;
+		$details = $prescriptions ? $prescriptions->details : [];
 		foreach ($details as $detail) {
 			$detail->is_sembuh = $detail->laporan->where('status', 'sembuh')->first() ? true : false;
 		}

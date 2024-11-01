@@ -116,23 +116,6 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                         <IconButton
                             size="lg"
                             variant="ghost"
-                            aria-label="toggle color mode"
-                            color={useColorModeValue("gray.600", "gray.200")}
-                            icon={
-                                colorMode === "light" ? (
-                                    <FaMoon />
-                                ) : (
-                                    <BsFillSunFill />
-                                )
-                            }
-                            onClick={toggleColorMode}
-                        />
-                    </Box>
-
-                    <Box display={{ base: "none", md: "block" }}>
-                        <IconButton
-                            size="lg"
-                            variant="ghost"
                             aria-label="notification"
                             color={useColorModeValue("gray.600", "gray.200")}
                             icon={<FaBell />}
