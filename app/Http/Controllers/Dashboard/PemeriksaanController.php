@@ -67,6 +67,7 @@ class PemeriksaanController extends Controller
             }
             $prescription->progress = $detailCount > 0 ? $totalProgress / $detailCount : 0;
         }
+        
         return Inertia::render('Dashboard/Pemeriksaan/Index', [
             'title' => 'Pemeriksaan',
             'prescriptions' => $prescriptions,
