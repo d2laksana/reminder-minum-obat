@@ -19,7 +19,11 @@ export default function Index({ types, items }) {
  
 	const [active, setActive] = useState("all");
 	const [filteredItems, setFilteredItems] = useState(items);
+
 	const { data, setData, post, processing, errors } = useForm({
+		item_id: ""
+	});
+	const { data: dataEquip, setData: setDataEquip, post: postEquip, processing: processEquip, errors: errorsEquip } = useForm({
 		item_id: ""
 	});
 
@@ -76,6 +80,29 @@ export default function Index({ types, items }) {
 		});
 	}
 
+	useEffect(() => {
+		const handleEquip = async () => {
+			await postEquip(route("pasien.store.equip"), {
+				onSuccess: () => {
+					toast({
+						title: "Pemakaian Berhasil",
+						description: "Anda berhasil memakai item ini.",
+						status: "success",
+						duration: 5000,
+						isClosable: true,
+						position: "top-right",
+					});
+				}
+			});
+		}
+
+		if (dataEquip.item_id != "") {
+			handleEquip();
+		}
+	}, [dataEquip]);
+
+	
+
     return (
         <LayoutDashboard>
             <Card borderRadius={"xl"} p={10}>
@@ -106,10 +133,22 @@ export default function Index({ types, items }) {
 								<Badge colorScheme={"yellow"} fontSize={"xs"}>{item.price} Koin</Badge>
 							</Flex>
 
-							<Button bg={"brand.300"} size={"sm"} mt={4} width={"100%"} color={"white"} _hover={{ bg: "brand.400" }} onClick={() => {
-								setData({...data, item_id: item.id});
-								onOpen();
-							}}>Beli</Button>
+							{!item.is_owned && item.is_owned != true && ( 
+								<Button bg={"brand.300"} size={"sm"} mt={4} width={"100%"} color={"white"} _hover={{ bg: "brand.400" }} onClick={() => {
+									setData({...data, item_id: item.id});
+									onOpen();
+								}}>
+									Beli
+								</Button>
+							)}
+
+							{item.is_owned && item.is_owned == true && (
+								<Button bg={"yellow.300"} size={"sm"} mt={4} width={"100%"} color={"white"} _hover={{ bg: "yellow.400" }} onClick={() => {
+									setDataEquip({...dataEquip, item_id: item.id});
+								}}>
+									Pakai
+								</Button>
+							)}
 						</Card>
 					))}
 				</SimpleGrid>

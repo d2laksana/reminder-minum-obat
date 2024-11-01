@@ -80,6 +80,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
         Route::prefix('store')->group(function () {
             Route::get('/', [StoreController::class, 'index'])->name('pasien.store');
             Route::post('/purchase', [StoreController::class, 'purchase'])->name('pasien.store.purchase');
+            Route::post('/equip', [StoreController::class, 'equip'])->name('pasien.store.equip');
         });
 
         Route::get('/user', [UserController::class, 'list'])->name('pasien.user.list');
