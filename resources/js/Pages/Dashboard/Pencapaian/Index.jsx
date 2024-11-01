@@ -17,15 +17,15 @@ export default function Index({ logs }) {
 				<FaCoins size={"60"} color={"#F6E05E"} />
 				<Text fontSize={"4xl"} fontWeight={"bold"} mt={2} color={"yellow.300"}>{auth.user.coins.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</Text>
 
-				<Text fontSize={"2xl"} fontWeight={"bold"} mt={2}>Poin anda</Text>
+				<Text fontSize={"2xl"} fontWeight={"bold"} mt={2}>Koin anda</Text>
 				<Text fontSize={"lg"} mt={2} color={"gray.400"} width={"30%"} textAlign={"center"}>Kumpulkan lebih banyak koin untuk membuka lebih banyak kosmetik yang akan membuat tampilanmu makin menarik!</Text>
             </Card>
 
 			<Card borderRadius={"xl"} p={10} mt={5} display={"flex"} alignItems={"center"} justifyContent={"center"} flexDirection={"column"}>
 				<Flex alignItems={"center"} justifyContent={"space-between"} width={"100%"}>
-					<Text fontSize={"2xl"} fontWeight={"bold"}>Riwayat Poin</Text>
+					<Text fontSize={"2xl"} fontWeight={"bold"}>Riwayat Koin</Text>
 					<Link href={route("pasien.store")}>
-						<Button bg={"brand.300"} color={"white"} _hover={{ bg: "brand.400" }} size={"md"}>Tukar Poin</Button>
+						<Button bg={"brand.300"} color={"white"} _hover={{ bg: "brand.400" }} size={"md"}>Tukar Koin</Button>
 					</Link>
 				</Flex>
 
