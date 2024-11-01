@@ -104,19 +104,19 @@ class FcmTokenController extends Controller
                             ->groupBy('prescription_detail_id');
                     })->get();
 
-                if ($laporan && $laporan[0]->status !== 'sembuh') {
+                if ($laporan && $laporan[0]->status === 'sembuh') {
+                    $detail->progress = $detail->total_konsumsi > 0
+                        ? ($detail->total_konsumsi / $detail->total_konsumsi) * 100
+                        : 0;
+
+                    $totalProgress += $detail->progress;
+                } else {
                     $detail->progress = $detail->total_konsumsi > 0
                         ? ($reported_konsumsi / $detail->total_konsumsi) * 100
                         : 0;
 
                     $totalProgress += $detail->progress;
                     $users[] = $prescription->pasien_id;
-                } else {
-                    $detail->progress = $detail->total_konsumsi > 0
-                        ? ($detail->total_konsumsi / $detail->total_konsumsi) * 100
-                        : 0;
-
-                    $totalProgress += $detail->progress;
                 }
             }
             $prescription->progress = $detailCount > 0 ? $totalProgress / $detailCount : 0;
