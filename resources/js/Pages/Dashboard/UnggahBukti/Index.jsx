@@ -78,7 +78,7 @@ export default function Index() {
             <Card borderRadius={"xl"} p={10}>
                 <form onSubmit={handleSubmit}>
                     <Flex justifyContent={"space-between"} mb={5} gap={10} alignItems={"center"}>
-                        <div {...getRootProps({className: 'dropzone'})} style={{width: "30%"}}>
+                        <div {...getRootProps({ className: 'dropzone' })} style={{ width: "30%" }}>
                             <Box bg={"#FAFCFE"} borderRadius={"xl"} display={"flex"} alignItems={"center"} p={5} border={"1px"} borderColor={"#E0E5F2"} borderStyle={"dashed"} justifyContent={"center"} flexDir={"column"} h={"500px"} cursor={"pointer"}>
                                 <input {...getInputProps()} onChange={handleImageUpload} />
                                 {preview && <Image src={preview} alt="Preview" mt={5} />}
@@ -101,7 +101,7 @@ export default function Index() {
                                     <InputGroup>
                                         <Select placeholder="Pilih obat" height={"50"} borderRadius={"2xl"} onChange={(e) => setData('prescription_detail_id', e.target.value)}>
                                             {prescriptions && prescriptions.details && prescriptions.details.map((prescription, index) => (
-                                                <option key={index} value={prescription.id}>{prescription.medicine}</option>
+                                                prescription.progress != 100 && <option key={index} value={prescription.id}>{prescription.medicine}</option>
                                             ))}
                                         </Select>
                                     </InputGroup>
