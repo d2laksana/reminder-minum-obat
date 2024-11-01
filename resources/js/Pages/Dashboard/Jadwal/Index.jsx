@@ -2,7 +2,7 @@
 
 import Pagination from "@/Components/Pagination";
 import LayoutDashboard from "@/Layouts/LayoutDashboard";
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, IconButton, Input, InputGroup, InputRightElement, Progress, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, IconButton, Input, InputGroup, InputRightElement, Progress, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, Badge } from "@chakra-ui/react";
 import { Link, router, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { FaPen, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
@@ -27,6 +27,7 @@ export default function Index() {
                                     <Th color="#A0AEC0" w="20%">Instruksi Konsumsi</Th>
                                     <Th color="#A0AEC0" w="20%">Dosis Konsumsi</Th>
                                     <Th color="#A0AEC0" w="25%">Waktu Konsumsi</Th>
+                                    <Th color="#A0AEC0" w="25%">Status</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -37,6 +38,12 @@ export default function Index() {
 										<Td>{prescription.aturan_konsumsi}x Sehari</Td>
 										<Td>{prescription.dosage}</Td>
 										<Td>{prescription.time_before_after_meal == 'after' ? 'Setelah makan' : 'Sebelum makan'}</Td>
+                                        {/* <Td>{prescription.is_sembuh == true ? 'Sudah Sembuh' : 'Belum Sembuh'}</Td> */}
+                                        <Td>
+                                            <Badge colorScheme={prescription.is_sembuh == true ? 'green' : 'red'}>
+                                                {prescription.is_sembuh == true ? 'Sudah Sembuh' : 'Belum Sembuh'}
+                                            </Badge>
+                                        </Td>
 									</Tr>
 								))}
 

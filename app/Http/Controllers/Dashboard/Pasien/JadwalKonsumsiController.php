@@ -17,6 +17,11 @@ class JadwalKonsumsiController extends Controller
 			->latest()
 			->first();
 
+		$details = $prescriptions->details;
+		foreach ($details as $detail) {
+			$detail->is_sembuh = $detail->laporan->where('status', 'sembuh')->first() ? true : false;
+		}
+
 		return Inertia::render('Dashboard/Jadwal/Index', [
 			'title' => 'Pemeriksaan',
 			'prescriptions' => $prescriptions,

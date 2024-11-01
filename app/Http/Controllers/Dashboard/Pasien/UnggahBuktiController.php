@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Laporan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\CoinsLog;
+use App\Models\User;
 
 class UnggahBuktiController extends Controller
 {
@@ -39,6 +41,18 @@ class UnggahBuktiController extends Controller
 		$photo = $request->file('photo');
 		$photoName = Str::random(20) . '.' . $photo->extension();
 		$photo->storeAs('bukti', $photoName, 'public');
+
+		// Add coins to user
+		$user = User::find(Auth::id());
+		$user->coins += 30;
+		$user->save();
+
+		// Store to coins log
+		CoinsLog::create([
+			'user_id' => Auth::id(),
+			'coins' => 30,
+			'title' => 'Mengonsumsi obat',
+		]);
 
 		// Store to database
 		Laporan::create([
