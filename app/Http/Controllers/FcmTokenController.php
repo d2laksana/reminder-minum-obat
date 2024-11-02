@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Notifications;
 
 class FcmTokenController extends Controller
 {
@@ -125,6 +126,16 @@ class FcmTokenController extends Controller
                     $users[] = $prescription->pasien_id;
                 }
             }
+        }
+
+        $broadcastUsers = array_unique($users);
+        foreach($broadcastUsers as $user) {
+            Notifications::create([
+                'user_id' => $user,
+                'title' => 'Pengingat konsumsi obat',
+                'description' => 'Halo! Saatnya minum obat ya, biar cepat pulih 😊',
+                'is_read' => false,
+            ]);
         }
 
         $fcmToken = FcmToken::whereIn('user_id', $users)->get();
