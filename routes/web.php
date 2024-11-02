@@ -14,6 +14,7 @@ use App\Http\Controllers\FcmTokenController;
 use App\Http\Controllers\Dashboard\Pasien\StoreController;
 use App\Http\Controllers\Dashboard\Pasien\AvatarController;
 use App\Http\Controllers\Dashboard\Pasien\UserController;
+use App\Http\Controllers\Dashboard\Pasien\NotificationController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Container\Attributes\Auth;
@@ -85,6 +86,8 @@ Route::middleware(AuthMiddleware::class)->group(function () {
 
         Route::get('/user', [UserController::class, 'list'])->name('pasien.user.list');
         Route::get('/user/{id}', [UserController::class, 'index'])->name('pasien.user');
+
+        Route::post('/notification/read', [NotificationController::class, 'read'])->name('pasien.notification.read');
     });
 
     Route::post('/fcm-token', [FcmTokenController::class, 'store'])->name('fcm.token');

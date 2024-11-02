@@ -32,18 +32,37 @@ import { BsFillSunFill } from "react-icons/bs";
 import { FaLanguage, FaMoon } from "react-icons/fa";
 import { Link, usePage } from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
-import { FaBell } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
-import { FaCoins } from "react-icons/fa6";
+import { FaCoins, FaBell } from "react-icons/fa6";
 
 export const MobileNav = ({ onOpen, ...rest }) => {
-    const { auth, cosmetic } = usePage().props;
+    const { auth, cosmetic, notifications } = usePage().props;
     const toast = useToast();
     const { colorMode, toggleColorMode } = useColorMode();
+
+    const { data, setData, post, processing, errors, reset } = useForm({});
+
 
     function capitalizeFirstLetter(value) {
         return value.charAt(0).toUpperCase() + value.slice(1);
     }
+
+    const handleReadNotification = async () => {
+        try {
+            await post(route("pasien.notification.read"));
+            toast({
+                title: "Notifikasi dibaca",
+                description: "Semua notifikasi telah dibaca",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "top-right",
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return (
         <Flex
@@ -112,15 +131,54 @@ export const MobileNav = ({ onOpen, ...rest }) => {
                         </Text>
                     </Box>
 
-                    <Box display={{ base: "none", md: "block" }}>
-                        <IconButton
-                            size="lg"
-                            variant="ghost"
-                            aria-label="notification"
-                            color={useColorModeValue("gray.600", "gray.200")}
-                            icon={<FaBell />}
-                        />
-                    </Box>
+                    <Menu display={{ base: "none", md: "block" }}>
+                        <MenuButton>
+                            <IconButton
+                                size="lg"
+                                variant="ghost"
+                                aria-label="notification"
+                                color={useColorModeValue("gray.600", "gray.200")}
+                                icon={<FaBell />}
+                            />
+                        </MenuButton>
+
+                        <MenuList
+                            py={3}
+                            bg={useColorModeValue("white", "gray.700")}
+                            borderColor={useColorModeValue(
+                                "gray.200",
+                                "gray.700"
+                            )}
+                        >
+                            <Flex justifyContent={"space-between"} alignItems={"center"} mx={4}>
+                                <Text fontSize={"sm"} fontWeight={"bold"}>Notifikasi</Text>
+                                <Text fontSize={"xs"} color={"brand.500"} cursor={"pointer"} onClick={handleReadNotification}>Tandai semua dibaca</Text>
+                            </Flex>
+                            <MenuItem mt={3}>
+                                <Flex flexDir={"column"} gap={5}>
+                                    {notifications && notifications.map((notification, index) => (
+                                        <Box display={"flex"} flexDir={"row"} justifyContent={"start"} alignItems={"center"}>
+                                            <Box bg={"blue.100"} borderRadius={"50%"} p={3}>
+                                                <FaBell color="#63B3ED" />
+                                            </Box>
+
+                                            <Box ml={2}>
+                                                <Flex justifyContent={"space-between"} alignItems={"center"}>
+                                                    <Text fontSize={"sm"} fontWeight={"bold"}>{notification.title}</Text>
+                                                    <Text fontSize={"xs"} color={"gray.500"}>{timeSince(new Date(notification.created_at))}</Text>
+                                                </Flex>
+                                                <Text fontSize={"xs"} color={"gray.500"}>{notification.description}</Text>
+                                            </Box>
+                                        </Box>
+                                    ))}
+
+                                    {!notifications || notifications.length === 0 && (
+                                        <Text fontSize={"sm"} textAlign={"center"}>Tidak ada notifikasi</Text>
+                                    )}
+                                </Flex>
+                            </MenuItem>
+                        </MenuList>
+                    </Menu>
                 </Flex>
 
                 <Flex alignItems={"center"}>

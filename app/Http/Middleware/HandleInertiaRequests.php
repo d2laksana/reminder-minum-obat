@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notifications;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -37,6 +38,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'cosmetic' => Auth::check() ? User::where('id', $request->user()->id)->with('border')->first() : null,
+            'notifications' => Auth::check() ? Notifications::where('user_id', $request->user()->id)->where('is_read', 0)->orderBy('created_at', 'desc')->get() : null,
         ];
     }
 }
