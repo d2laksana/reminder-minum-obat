@@ -14,12 +14,13 @@ const defaultConfig = {
 };
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDu9pj2lQQ1Xfy7jJniBXLAK4niueUlHyI",
-    authDomain: "reminder-minum-obat-d1a97.firebaseapp.com",
-    projectId: "reminder-minum-obat-d1a97",
-    messagingSenderId: "445148842776",
-    appId: "1:445148842776:web:6ecb339444e0b71617ec6d",
-    measurementId: "G-PZBQEFPZZ1"
+    apiKey: "AIzaSyB5LfkRboS8vWZShOTxvZ4leYAYRkTfRsU",
+    authDomain: "mobile-jkn-a8de2.firebaseapp.com",
+    projectId: "mobile-jkn-a8de2",
+    storageBucket: "mobile-jkn-a8de2.firebasestorage.app",
+    messagingSenderId: "243054835921",
+    appId: "1:243054835921:web:6dcf9886e0f2a084e26df0",
+    measurementId: "G-QN29CZJ42H"
 };
 
 firebase.initializeApp(firebaseConfig || defaultConfig);

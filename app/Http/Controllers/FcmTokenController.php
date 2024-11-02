@@ -50,7 +50,7 @@ class FcmTokenController extends Controller
         $client = new GuzzleClient();
         $data = [
             'message' => [
-                'token' => "ddeC75Q4v8se_azPfUYwhW:APA91bGemYgATAWF8Bh2qb8TkvHcJTrXbZSr7B1acusDNcYt1CF0re5Cy8G4sLvb4xtiX-r40081eI8wHzFpd3-wbsKnwzyT_hhYWb81Iw4GimOX1r_075o", // Token perangkat
+                'token' => $tokens, // Token perangkat
                 'notification' => [
                     'title' => $title,
                     'body' => $body,
@@ -60,9 +60,9 @@ class FcmTokenController extends Controller
 
         // Kirim permintaan POST ke FCM
         try {
-            $response = $client->post('https://fcm.googleapis.com/v1/projects/reminder-minum-obat-d1a97/messages:send', [
+            $response = $client->post('https://fcm.googleapis.com/v1/projects/mobile-jkn-a8de2/messages:send', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken['access_token'], // Pastikan format token benar
+                    'Authorization' => 'Bearer ' . $accessToken['access_token'],
                     'Content-Type' => 'application/json',
                 ],
                 'json' => $data,
@@ -105,19 +105,21 @@ class FcmTokenController extends Controller
                             ->groupBy('prescription_detail_id');
                     })->get();
 
-                if ($laporan && $laporan[0]->status === 'sembuh') {
-                    $detail->progress = $detail->total_konsumsi > 0
-                        ? ($detail->total_konsumsi / $detail->total_konsumsi) * 100
-                        : 0;
+                if ($laporan->count() > 0) {
+                    if ($laporan && $laporan[0]->status === 'sembuh') {
+                        $detail->progress = $detail->total_konsumsi > 0
+                            ? ($detail->total_konsumsi / $detail->total_konsumsi) * 100
+                            : 0;
 
-                    $totalProgress += $detail->progress;
-                } else {
-                    $detail->progress = $detail->total_konsumsi > 0
-                        ? ($reported_konsumsi / $detail->total_konsumsi) * 100
-                        : 0;
+                        $totalProgress += $detail->progress;
+                    } else {
+                        $detail->progress = $detail->total_konsumsi > 0
+                            ? ($reported_konsumsi / $detail->total_konsumsi) * 100
+                            : 0;
 
-                    $totalProgress += $detail->progress;
-                    $users[] = $prescription->pasien_id;
+                        $totalProgress += $detail->progress;
+                        $users[] = $prescription->pasien_id;
+                    }
                 }
             }
             $prescription->progress = $detailCount > 0 ? $totalProgress / $detailCount : 0;
@@ -129,7 +131,7 @@ class FcmTokenController extends Controller
         }
 
         $broadcastUsers = array_unique($users);
-        foreach($broadcastUsers as $user) {
+        foreach ($broadcastUsers as $user) {
             Notifications::create([
                 'user_id' => $user,
                 'title' => 'Pengingat konsumsi obat',
@@ -140,9 +142,11 @@ class FcmTokenController extends Controller
 
         $fcmToken = FcmToken::whereIn('user_id', $users)->get();
         $tokens = $fcmToken->pluck('token')->toArray();
+        // dd($tokens);
         foreach ($tokens as $token) {
             $title = 'Reminder';
             $body = 'Jangan lupa minum obat ya!';
+            // dd($token);
             $this->sendNotification($token, $title, $body);
         }
     }

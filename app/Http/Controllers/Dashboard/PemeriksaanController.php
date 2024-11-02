@@ -44,20 +44,22 @@ class PemeriksaanController extends Controller
                             ->from('laporans')
                             ->groupBy('prescription_detail_id');
                     })->get();
-                // dd($laporan[]);
-                if ($laporan && $laporan[0]->status === 'sembuh') {
-                    $detail->progress = $detail->total_konsumsi > 0
-                        ? ($detail->total_konsumsi / $detail->total_konsumsi) * 100
-                        : 0;
 
-                    $totalProgress += $detail->progress;
-                } else {
-                    $detail->progress = $detail->total_konsumsi > 0
-                        ? ($reported_konsumsi / $detail->total_konsumsi) * 100
-                        : 0;
+                if ($laporan->count() > 0) {
+                    if ($laporan && $laporan[0]->status === 'sembuh') {
+                        $detail->progress = $detail->total_konsumsi > 0
+                            ? ($detail->total_konsumsi / $detail->total_konsumsi) * 100
+                            : 0;
 
-                    $totalProgress += $detail->progress;
-                    $users[] = $prescription->pasien_id;
+                        $totalProgress += $detail->progress;
+                    } else {
+                        $detail->progress = $detail->total_konsumsi > 0
+                            ? ($reported_konsumsi / $detail->total_konsumsi) * 100
+                            : 0;
+
+                        $totalProgress += $detail->progress;
+                        $users[] = $prescription->pasien_id;
+                    }
                 }
 
 
@@ -67,7 +69,7 @@ class PemeriksaanController extends Controller
             }
             $prescription->progress = $detailCount > 0 ? $totalProgress / $detailCount : 0;
         }
-        
+
         return Inertia::render('Dashboard/Pemeriksaan/Index', [
             'title' => 'Pemeriksaan',
             'prescriptions' => $prescriptions,
